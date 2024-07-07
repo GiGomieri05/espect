@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "351259074767",
+    "project_id": "espect-flutterflow-firebase",
+    "storage_bucket": "espect-flutterflow-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351259074767:android:dbfa98203d462ab015d7ba",
+        "android_client_info": {
+          "package_name": "com.rdbfutura.espect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_iNJwggy00JvRT__iMyTyErFkZ4ou_Fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
