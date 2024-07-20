@@ -5,11 +5,11 @@ export '/pages/login/forgot_password_screen/forgot_password_screen_widget.dart'
     show ForgotPasswordScreenWidget;
 export '/pages/main/lancamentos/lancamentos/lancamentos_widget.dart'
     show LancamentosWidget;
-export '/pages/main/user/user_widget.dart' show UserWidget;
-export '/pages/main/team/team_widget.dart' show TeamWidget;
+export '/pages/main/user/user/user_widget.dart' show UserWidget;
+export '/pages/main/projetos/team/team_widget.dart' show TeamWidget;
 export '/pages/main/projetos/formulario_projeto/formulario_projeto_widget.dart'
     show FormularioProjetoWidget;
-export '/pages/main/details01_project_tracker/details01_project_tracker_widget.dart'
+export '/pages/main/projetos/details01_project_tracker/details01_project_tracker_widget.dart'
     show Details01ProjectTrackerWidget;
 export '/pages/main/projetos/projeto_details/projeto_details_widget.dart'
     show ProjetoDetailsWidget;
@@ -45,3 +45,4 @@ export '/pages/main/lancamentos/formulario_lancamentos_edit/formulario_lancament
     show FormularioLancamentosEditWidget;
 export '/pages/main/lancamentos/lancamento_details/lancamento_details_widget.dart'
     show LancamentoDetailsWidget;
+export '/pages/main/user/edit_user/edit_user_widget.dart' show EditUserWidget;
