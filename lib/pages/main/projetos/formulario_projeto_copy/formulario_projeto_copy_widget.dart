@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -9,10 +10,12 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'formulario_projeto_copy_model.dart';
 export 'formulario_projeto_copy_model.dart';
@@ -24,7 +27,7 @@ class FormularioProjetoCopyWidget extends StatefulWidget {
     required this.garrafa,
     required this.coifa,
     required this.aleta,
-  }) : isCreatedProject = isCreatedProject ?? false;
+  }) : this.isCreatedProject = isCreatedProject ?? false;
 
   final bool isCreatedProject;
   final DocumentReference? garrafa;
@@ -49,9 +52,9 @@ class _FormularioProjetoCopyWidgetState
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.gararfaSelecionadaPagina = widget.garrafa;
-      _model.coifaSelecionadaPagina = widget.coifa;
-      _model.aletaSelecionadaPagina = widget.aleta;
+      _model.gararfaSelecionadaPagina = widget!.garrafa;
+      _model.coifaSelecionadaPagina = widget!.coifa;
+      _model.aletaSelecionadaPagina = widget!.aleta;
       setState(() {});
     });
 
@@ -87,6 +90,7 @@ class _FormularioProjetoCopyWidgetState
 
     _model.cpFocusNode ??= FocusNode();
     _model.cpFocusNode!.addListener(() => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -120,7 +124,9 @@ class _FormularioProjetoCopyWidgetState
             ),
           );
         }
+
         final formularioProjetoCopyFoguetesRecord = snapshot.data!;
+
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -158,20 +164,20 @@ class _FormularioProjetoCopyWidgetState
                           FlutterFlowTheme.of(context).headlineMediumFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: false,
               elevation: 2.0,
             ),
             body: SafeArea(
               top: true,
-              child: SizedBox(
+              child: Container(
                 height: MediaQuery.sizeOf(context).height * 1.0,
                 child: Stack(
                   children: [
                     Column(
                       children: [
                         Align(
-                          alignment: const Alignment(0.0, 0),
+                          alignment: Alignment(0.0, 0),
                           child: TabBar(
                             isScrollable: true,
                             labelColor:
@@ -200,8 +206,8 @@ class _FormularioProjetoCopyWidgetState
                                 ),
                             indicatorColor:
                                 FlutterFlowTheme.of(context).primary,
-                            padding: const EdgeInsets.all(4.0),
-                            tabs: const [
+                            padding: EdgeInsets.all(4.0),
+                            tabs: [
                               Tab(
                                 text: 'Geral',
                               ),
@@ -240,13 +246,13 @@ class _FormularioProjetoCopyWidgetState
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 5.0),
                                       child: Text(
                                         'Editar o projeto',
@@ -267,7 +273,7 @@ class _FormularioProjetoCopyWidgetState
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 16.0),
                                       child: Text(
                                         'Sinta-se a vontade para edtiar o que quiser\ndo seu projeto, inclusive o bom nome do\nfoguete! ;)',
@@ -301,9 +307,9 @@ class _FormularioProjetoCopyWidgetState
                                         children: [
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 16.0, 0.0, 0.0),
-                                            child: SizedBox(
+                                            child: Container(
                                               width: double.infinity,
                                               child: TextFormField(
                                                 controller: _model
@@ -397,7 +403,7 @@ class _FormularioProjetoCopyWidgetState
                                                               context)
                                                           .secondaryBackground,
                                                   contentPadding:
-                                                      const EdgeInsets.all(24.0),
+                                                      EdgeInsets.all(24.0),
                                                 ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -428,7 +434,7 @@ class _FormularioProjetoCopyWidgetState
                                           ),
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 16.0, 0.0, 0.0),
                                             child: FlutterFlowDropDown<String>(
                                               controller: _model
@@ -438,7 +444,7 @@ class _FormularioProjetoCopyWidgetState
                                                     formularioProjetoCopyFoguetesRecord
                                                         .statusAtual,
                                               ),
-                                              options: const [
+                                              options: [
                                                 'Em Construção',
                                                 'Não Lançado',
                                                 'Lançado',
@@ -487,7 +493,7 @@ class _FormularioProjetoCopyWidgetState
                                                       .lineColor,
                                               borderWidth: 2.0,
                                               borderRadius: 50.0,
-                                              margin: const EdgeInsetsDirectional
+                                              margin: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 4.0, 16.0, 4.0),
                                               hidesUnderline: true,
@@ -503,7 +509,7 @@ class _FormularioProjetoCopyWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: SingleChildScrollView(
                                   primary: false,
                                   child: Column(
@@ -512,7 +518,7 @@ class _FormularioProjetoCopyWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 5.0),
                                         child: Text(
                                           'Garrafa',
@@ -533,7 +539,7 @@ class _FormularioProjetoCopyWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 16.0),
                                         child: Text(
                                           'Escolha uma garrafa para construir o corpo do seu foguete.',
@@ -560,10 +566,12 @@ class _FormularioProjetoCopyWidgetState
                                       ),
                                       if (FFAppState().selectedGarrafa == '0')
                                         FutureBuilder<List<GarrafaRecord>>(
-                                          future: FFAppState()
-                                              .queryDeGarrafasEmLista(
-                                            requestFn: () =>
-                                                queryGarrafaRecordOnce(),
+                                          future: queryGarrafaRecordOnce(
+                                            queryBuilder: (garrafaRecord) =>
+                                                garrafaRecord.where(
+                                              'userDono',
+                                              isEqualTo: currentUserUid,
+                                            ),
                                           ),
                                           builder: (context, snapshot) {
                                             // Customize what your widget looks like when it's loading.
@@ -588,6 +596,7 @@ class _FormularioProjetoCopyWidgetState
                                             List<GarrafaRecord>
                                                 listViewGarrafaRecordList =
                                                 snapshot.data!;
+
                                             return ListView.builder(
                                               padding: EdgeInsets.zero,
                                               shrinkWrap: true,
@@ -601,7 +610,7 @@ class _FormularioProjetoCopyWidgetState
                                                     listViewGarrafaRecordList[
                                                         listViewIndex];
                                                 return Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 6.0, 0.0, 6.0),
                                                   child: InkWell(
@@ -641,7 +650,7 @@ class _FormularioProjetoCopyWidgetState
                                                         color: FlutterFlowTheme
                                                                 .of(context)
                                                             .secondaryBackground,
-                                                        boxShadow: const [
+                                                        boxShadow: [
                                                           BoxShadow(
                                                             blurRadius: 3.0,
                                                             color: Color(
@@ -658,7 +667,7 @@ class _FormularioProjetoCopyWidgetState
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     12.0,
                                                                     8.0,
@@ -719,7 +728,7 @@ class _FormularioProjetoCopyWidgetState
                                                                       ),
                                                                 ),
                                                                 Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
@@ -782,7 +791,7 @@ class _FormularioProjetoCopyWidgetState
                                                                             32.0),
                                                                   ),
                                                                   alignment:
-                                                                      const AlignmentDirectional(
+                                                                      AlignmentDirectional(
                                                                           0.0,
                                                                           0.0),
                                                                   child:
@@ -844,7 +853,7 @@ class _FormularioProjetoCopyWidgetState
                                       if (FFAppState().selectedGarrafa != '0')
                                         Align(
                                           alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
+                                              AlignmentDirectional(0.0, 0.0),
                                           child: StreamBuilder<GarrafaRecord>(
                                             stream: GarrafaRecord.getDocument(
                                                 _model
@@ -869,8 +878,10 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                 );
                                               }
+
                                               final columnGarrafaRecord =
                                                   snapshot.data!;
+
                                               return Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 crossAxisAlignment:
@@ -881,6 +892,9 @@ class _FormularioProjetoCopyWidgetState
                                                         MainAxisSize.max,
                                                     children: [
                                                       if (columnGarrafaRecord
+                                                                  .imagem !=
+                                                              null &&
+                                                          columnGarrafaRecord
                                                                   .imagem !=
                                                               '')
                                                         ClipRRect(
@@ -898,7 +912,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     20.0,
                                                                     0.0,
@@ -1069,7 +1083,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 16.0),
                                                     child: Column(
@@ -1157,7 +1171,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Dimensões:',
@@ -1184,7 +1198,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -1266,7 +1280,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -1348,7 +1362,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -1436,10 +1450,10 @@ class _FormularioProjetoCopyWidgetState
                                       if (FFAppState().selectedGarrafa != '0')
                                         Align(
                                           alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
+                                              AlignmentDirectional(0.0, 0.0),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 20.0, 0.0, 60.0),
                                             child: FFButtonWidget(
                                               onPressed: () async {
@@ -1463,7 +1477,7 @@ class _FormularioProjetoCopyWidgetState
                                                                 .primaryText,
                                                       ),
                                                     ),
-                                                    duration: const Duration(
+                                                    duration: Duration(
                                                         milliseconds: 4000),
                                                     backgroundColor:
                                                         FlutterFlowTheme.of(
@@ -1475,11 +1489,11 @@ class _FormularioProjetoCopyWidgetState
                                               text: 'Alterar',
                                               options: FFButtonOptions(
                                                 height: 40.0,
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         24.0, 0.0, 24.0, 0.0),
                                                 iconPadding:
-                                                    const EdgeInsetsDirectional
+                                                    EdgeInsetsDirectional
                                                         .fromSTEB(
                                                             0.0, 0.0, 0.0, 0.0),
                                                 color:
@@ -1522,7 +1536,7 @@ class _FormularioProjetoCopyWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: SingleChildScrollView(
                                   primary: false,
                                   child: Column(
@@ -1531,7 +1545,7 @@ class _FormularioProjetoCopyWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 5.0),
                                         child: Text(
                                           'Coifa',
@@ -1552,7 +1566,7 @@ class _FormularioProjetoCopyWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 16.0),
                                         child: Text(
                                           'Hora de editar a coifa do seu foguete.',
@@ -1581,7 +1595,13 @@ class _FormularioProjetoCopyWidgetState
                                         FutureBuilder<List<CoifaRecord>>(
                                           future: FFAppState().listaDeCoifas(
                                             requestFn: () =>
-                                                queryCoifaRecordOnce(),
+                                                queryCoifaRecordOnce(
+                                              queryBuilder: (coifaRecord) =>
+                                                  coifaRecord.where(
+                                                'userDono',
+                                                isEqualTo: currentUserUid,
+                                              ),
+                                            ),
                                           ),
                                           builder: (context, snapshot) {
                                             // Customize what your widget looks like when it's loading.
@@ -1606,6 +1626,7 @@ class _FormularioProjetoCopyWidgetState
                                             List<CoifaRecord>
                                                 listViewCoifaRecordList =
                                                 snapshot.data!;
+
                                             return ListView.builder(
                                               padding: EdgeInsets.zero,
                                               shrinkWrap: true,
@@ -1618,7 +1639,7 @@ class _FormularioProjetoCopyWidgetState
                                                     listViewCoifaRecordList[
                                                         listViewIndex];
                                                 return Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 6.0, 0.0, 6.0),
                                                   child: InkWell(
@@ -1654,7 +1675,7 @@ class _FormularioProjetoCopyWidgetState
                                                         color: FlutterFlowTheme
                                                                 .of(context)
                                                             .secondaryBackground,
-                                                        boxShadow: const [
+                                                        boxShadow: [
                                                           BoxShadow(
                                                             blurRadius: 3.0,
                                                             color: Color(
@@ -1671,7 +1692,7 @@ class _FormularioProjetoCopyWidgetState
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     12.0,
                                                                     8.0,
@@ -1715,7 +1736,7 @@ class _FormularioProjetoCopyWidgetState
                                       if (FFAppState().selectedCoifa != '0')
                                         Align(
                                           alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
+                                              AlignmentDirectional(0.0, 0.0),
                                           child: FutureBuilder<CoifaRecord>(
                                             future: CoifaRecord.getDocumentOnce(
                                                 _model.coifaSelecionadaPagina!),
@@ -1739,8 +1760,10 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                 );
                                               }
+
                                               final columnCoifaRecord =
                                                   snapshot.data!;
+
                                               return Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 crossAxisAlignment:
@@ -1751,6 +1774,9 @@ class _FormularioProjetoCopyWidgetState
                                                         MainAxisSize.max,
                                                     children: [
                                                       if (columnCoifaRecord
+                                                                  .imagem !=
+                                                              null &&
+                                                          columnCoifaRecord
                                                                   .imagem !=
                                                               '')
                                                         ClipRRect(
@@ -1769,7 +1795,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     20.0,
                                                                     0.0,
@@ -1807,7 +1833,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 16.0),
                                                     child: Column(
@@ -1865,7 +1891,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Dimensões:',
@@ -1892,7 +1918,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -1974,7 +2000,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -2056,7 +2082,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -2086,7 +2112,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       0.0,
@@ -2151,7 +2177,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                         Align(
                                                           alignment:
-                                                              const AlignmentDirectional(
+                                                              AlignmentDirectional(
                                                                   -1.0, 0.0),
                                                           child: Text(
                                                             'Componente de massa:',
@@ -2182,7 +2208,7 @@ class _FormularioProjetoCopyWidgetState
                                                                   .disabled,
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         16.0,
@@ -2200,7 +2226,7 @@ class _FormularioProjetoCopyWidgetState
                                                               focusNode: _model
                                                                   .massaAdicionalCoifaFocusNode,
                                                               autofocus: true,
-                                                              autofillHints: const [
+                                                              autofillHints: [
                                                                 AutofillHints
                                                                     .birthdayDay
                                                               ],
@@ -2288,7 +2314,7 @@ class _FormularioProjetoCopyWidgetState
                                                                         context)
                                                                     .secondaryBackground,
                                                                 contentPadding:
-                                                                    const EdgeInsets
+                                                                    EdgeInsets
                                                                         .all(
                                                                             24.0),
                                                               ),
@@ -2332,10 +2358,10 @@ class _FormularioProjetoCopyWidgetState
                                       if (FFAppState().selectedCoifa != '0')
                                         Align(
                                           alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
+                                              AlignmentDirectional(0.0, 0.0),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 20.0, 0.0, 60.0),
                                             child: FFButtonWidget(
                                               onPressed: () async {
@@ -2364,7 +2390,7 @@ class _FormularioProjetoCopyWidgetState
                                                                 .primaryText,
                                                       ),
                                                     ),
-                                                    duration: const Duration(
+                                                    duration: Duration(
                                                         milliseconds: 4000),
                                                     backgroundColor:
                                                         FlutterFlowTheme.of(
@@ -2376,11 +2402,11 @@ class _FormularioProjetoCopyWidgetState
                                               text: 'Alterar',
                                               options: FFButtonOptions(
                                                 height: 40.0,
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         24.0, 0.0, 24.0, 0.0),
                                                 iconPadding:
-                                                    const EdgeInsetsDirectional
+                                                    EdgeInsetsDirectional
                                                         .fromSTEB(
                                                             0.0, 0.0, 0.0, 0.0),
                                                 color:
@@ -2423,7 +2449,7 @@ class _FormularioProjetoCopyWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: SingleChildScrollView(
                                   primary: false,
                                   child: Column(
@@ -2432,7 +2458,7 @@ class _FormularioProjetoCopyWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 5.0),
                                         child: Text(
                                           'Aletas',
@@ -2453,7 +2479,7 @@ class _FormularioProjetoCopyWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 16.0),
                                         child: Text(
                                           'Para manter a trajetória, escolha as aletas do seu foguete! Lembre-se de conferir as medidas da aleta depois de selecioná-la.',
@@ -2482,7 +2508,13 @@ class _FormularioProjetoCopyWidgetState
                                         FutureBuilder<List<AletaRecord>>(
                                           future: FFAppState().listaDeAletas(
                                             requestFn: () =>
-                                                queryAletaRecordOnce(),
+                                                queryAletaRecordOnce(
+                                              queryBuilder: (aletaRecord) =>
+                                                  aletaRecord.where(
+                                                'userDono',
+                                                isEqualTo: currentUserUid,
+                                              ),
+                                            ),
                                           ),
                                           builder: (context, snapshot) {
                                             // Customize what your widget looks like when it's loading.
@@ -2507,6 +2539,7 @@ class _FormularioProjetoCopyWidgetState
                                             List<AletaRecord>
                                                 listViewAletaRecordList =
                                                 snapshot.data!;
+
                                             return ListView.builder(
                                               padding: EdgeInsets.zero,
                                               shrinkWrap: true,
@@ -2519,7 +2552,7 @@ class _FormularioProjetoCopyWidgetState
                                                     listViewAletaRecordList[
                                                         listViewIndex];
                                                 return Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 6.0, 0.0, 6.0),
                                                   child: InkWell(
@@ -2559,7 +2592,7 @@ class _FormularioProjetoCopyWidgetState
                                                         color: FlutterFlowTheme
                                                                 .of(context)
                                                             .secondaryBackground,
-                                                        boxShadow: const [
+                                                        boxShadow: [
                                                           BoxShadow(
                                                             blurRadius: 3.0,
                                                             color: Color(
@@ -2594,7 +2627,7 @@ class _FormularioProjetoCopyWidgetState
                                                           ),
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         8.0,
@@ -2794,7 +2827,7 @@ class _FormularioProjetoCopyWidgetState
                                       if (FFAppState().selectedAleta != '0')
                                         Align(
                                           alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
+                                              AlignmentDirectional(0.0, 0.0),
                                           child: FutureBuilder<AletaRecord>(
                                             future: AletaRecord.getDocumentOnce(
                                                 _model.aletaSelecionadaPagina!),
@@ -2818,8 +2851,10 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                 );
                                               }
+
                                               final columnAletaRecord =
                                                   snapshot.data!;
+
                                               return Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 crossAxisAlignment:
@@ -2830,6 +2865,9 @@ class _FormularioProjetoCopyWidgetState
                                                         MainAxisSize.max,
                                                     children: [
                                                       if (columnAletaRecord
+                                                                  .imagem !=
+                                                              null &&
+                                                          columnAletaRecord
                                                                   .imagem !=
                                                               '')
                                                         ClipRRect(
@@ -2848,7 +2886,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     20.0,
                                                                     0.0,
@@ -2901,7 +2939,7 @@ class _FormularioProjetoCopyWidgetState
                                                     children: [
                                                       Align(
                                                         alignment:
-                                                            const AlignmentDirectional(
+                                                            AlignmentDirectional(
                                                                 -1.0, 0.0),
                                                         child: Text(
                                                           'Dimensões:',
@@ -2958,7 +2996,7 @@ class _FormularioProjetoCopyWidgetState
                                                       .isComoRealizarMedicao)
                                                     Align(
                                                       alignment:
-                                                          const AlignmentDirectional(
+                                                          AlignmentDirectional(
                                                               0.0, 0.0),
                                                       child: InkWell(
                                                         splashColor:
@@ -2984,7 +3022,7 @@ class _FormularioProjetoCopyWidgetState
                                                                   fit: BoxFit
                                                                       .contain,
                                                                   alignment:
-                                                                      const Alignment(
+                                                                      Alignment(
                                                                           0.0,
                                                                           0.0),
                                                                 ),
@@ -3013,7 +3051,7 @@ class _FormularioProjetoCopyWidgetState
                                                               height: 350.0,
                                                               fit: BoxFit.cover,
                                                               alignment:
-                                                                  const Alignment(
+                                                                  Alignment(
                                                                       0.0, 0.0),
                                                             ),
                                                           ),
@@ -3022,7 +3060,7 @@ class _FormularioProjetoCopyWidgetState
                                                     ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -3104,7 +3142,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -3186,7 +3224,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -3268,7 +3306,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Column(
@@ -3356,7 +3394,7 @@ class _FormularioProjetoCopyWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Dados individuais das aletas:',
@@ -3392,7 +3430,7 @@ class _FormularioProjetoCopyWidgetState
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       16.0,
@@ -3408,7 +3446,7 @@ class _FormularioProjetoCopyWidgetState
                                                             focusNode: _model
                                                                 .materialaletaFocusNode,
                                                             autofocus: true,
-                                                            autofillHints: const [
+                                                            autofillHints: [
                                                               AutofillHints
                                                                   .familyName
                                                             ],
@@ -3496,7 +3534,7 @@ class _FormularioProjetoCopyWidgetState
                                                                       .of(context)
                                                                   .secondaryBackground,
                                                               contentPadding:
-                                                                  const EdgeInsets
+                                                                  EdgeInsets
                                                                       .all(
                                                                           24.0),
                                                             ),
@@ -3526,7 +3564,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       16.0,
@@ -3543,7 +3581,7 @@ class _FormularioProjetoCopyWidgetState
                                                             focusNode: _model
                                                                 .espessuraaletaFocusNode,
                                                             autofocus: true,
-                                                            autofillHints: const [
+                                                            autofillHints: [
                                                               AutofillHints
                                                                   .birthdayDay
                                                             ],
@@ -3627,7 +3665,7 @@ class _FormularioProjetoCopyWidgetState
                                                                       .of(context)
                                                                   .secondaryBackground,
                                                               contentPadding:
-                                                                  const EdgeInsets
+                                                                  EdgeInsets
                                                                       .all(
                                                                           24.0),
                                                             ),
@@ -3662,7 +3700,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       16.0,
@@ -3679,7 +3717,7 @@ class _FormularioProjetoCopyWidgetState
                                                             focusNode: _model
                                                                 .massaporaletaFocusNode,
                                                             autofocus: true,
-                                                            autofillHints: const [
+                                                            autofillHints: [
                                                               AutofillHints
                                                                   .birthdayDay
                                                             ],
@@ -3763,7 +3801,7 @@ class _FormularioProjetoCopyWidgetState
                                                                       .of(context)
                                                                   .secondaryBackground,
                                                               contentPadding:
-                                                                  const EdgeInsets
+                                                                  EdgeInsets
                                                                       .all(
                                                                           24.0),
                                                             ),
@@ -3798,7 +3836,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       16.0,
@@ -3815,7 +3853,7 @@ class _FormularioProjetoCopyWidgetState
                                                             focusNode: _model
                                                                 .quantidadenofogueteFocusNode,
                                                             autofocus: true,
-                                                            autofillHints: const [
+                                                            autofillHints: [
                                                               AutofillHints
                                                                   .birthdayDay
                                                             ],
@@ -3900,7 +3938,7 @@ class _FormularioProjetoCopyWidgetState
                                                                       .of(context)
                                                                   .secondaryBackground,
                                                               contentPadding:
-                                                                  const EdgeInsets
+                                                                  EdgeInsets
                                                                       .all(
                                                                           24.0),
                                                             ),
@@ -3947,7 +3985,7 @@ class _FormularioProjetoCopyWidgetState
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       16.0,
@@ -3964,7 +4002,7 @@ class _FormularioProjetoCopyWidgetState
                                                             focusNode: _model
                                                                 .massatotaldasaletasFocusNode,
                                                             autofocus: true,
-                                                            autofillHints: const [
+                                                            autofillHints: [
                                                               AutofillHints
                                                                   .birthdayDay
                                                             ],
@@ -4048,7 +4086,7 @@ class _FormularioProjetoCopyWidgetState
                                                                       .of(context)
                                                                   .secondaryBackground,
                                                               contentPadding:
-                                                                  const EdgeInsets
+                                                                  EdgeInsets
                                                                       .all(
                                                                           24.0),
                                                             ),
@@ -4092,10 +4130,10 @@ class _FormularioProjetoCopyWidgetState
                                       if (FFAppState().selectedAleta != '0')
                                         Align(
                                           alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
+                                              AlignmentDirectional(0.0, 0.0),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 20.0, 0.0, 60.0),
                                             child: FFButtonWidget(
                                               onPressed: () async {
@@ -4138,7 +4176,7 @@ class _FormularioProjetoCopyWidgetState
                                                                 .primaryText,
                                                       ),
                                                     ),
-                                                    duration: const Duration(
+                                                    duration: Duration(
                                                         milliseconds: 4000),
                                                     backgroundColor:
                                                         FlutterFlowTheme.of(
@@ -4150,11 +4188,11 @@ class _FormularioProjetoCopyWidgetState
                                               text: 'Alterar',
                                               options: FFButtonOptions(
                                                 height: 40.0,
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         24.0, 0.0, 24.0, 0.0),
                                                 iconPadding:
-                                                    const EdgeInsetsDirectional
+                                                    EdgeInsetsDirectional
                                                         .fromSTEB(
                                                             0.0, 0.0, 0.0, 0.0),
                                                 color:
@@ -4197,7 +4235,7 @@ class _FormularioProjetoCopyWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 16.0, 16.0, 96.0),
                                 child: SingleChildScrollView(
                                   child: Column(
@@ -4206,7 +4244,7 @@ class _FormularioProjetoCopyWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 5.0),
                                         child: Text(
                                           'Dimensões Finais do Foguete',
@@ -4227,7 +4265,7 @@ class _FormularioProjetoCopyWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 16.0),
                                         child: Text(
                                           'Tá na hora de tirar as últimas medidas antes de finalizarmos nosso foguete',
@@ -4260,10 +4298,10 @@ class _FormularioProjetoCopyWidgetState
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       0.0, 16.0, 0.0, 0.0),
-                                              child: SizedBox(
+                                              child: Container(
                                                 width: double.infinity,
                                                 child: TextFormField(
                                                   controller: _model
@@ -4357,7 +4395,7 @@ class _FormularioProjetoCopyWidgetState
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        const EdgeInsets.all(24.0),
+                                                        EdgeInsets.all(24.0),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -4390,10 +4428,10 @@ class _FormularioProjetoCopyWidgetState
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       0.0, 16.0, 0.0, 0.0),
-                                              child: SizedBox(
+                                              child: Container(
                                                 width: double.infinity,
                                                 child: TextFormField(
                                                   controller: _model
@@ -4489,7 +4527,7 @@ class _FormularioProjetoCopyWidgetState
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        const EdgeInsets.all(24.0),
+                                                        EdgeInsets.all(24.0),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -4522,10 +4560,10 @@ class _FormularioProjetoCopyWidgetState
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       0.0, 16.0, 0.0, 16.0),
-                                              child: SizedBox(
+                                              child: Container(
                                                 width: double.infinity,
                                                 child: TextFormField(
                                                   controller: _model
@@ -4619,7 +4657,7 @@ class _FormularioProjetoCopyWidgetState
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        const EdgeInsets.all(24.0),
+                                                        EdgeInsets.all(24.0),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -4658,7 +4696,7 @@ class _FormularioProjetoCopyWidgetState
                                                       .lineColor,
                                             ),
                                             Align(
-                                              alignment: const AlignmentDirectional(
+                                              alignment: AlignmentDirectional(
                                                   -1.0, 0.0),
                                               child: Text(
                                                 'Estabilidade',
@@ -4684,10 +4722,10 @@ class _FormularioProjetoCopyWidgetState
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       0.0, 16.0, 0.0, 0.0),
-                                              child: SizedBox(
+                                              child: Container(
                                                 width: double.infinity,
                                                 child: TextFormField(
                                                   controller: _model
@@ -4780,7 +4818,7 @@ class _FormularioProjetoCopyWidgetState
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        const EdgeInsets.all(24.0),
+                                                        EdgeInsets.all(24.0),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -4813,10 +4851,10 @@ class _FormularioProjetoCopyWidgetState
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       0.0, 16.0, 0.0, 0.0),
-                                              child: SizedBox(
+                                              child: Container(
                                                 width: double.infinity,
                                                 child: TextFormField(
                                                   controller: _model
@@ -4909,7 +4947,7 @@ class _FormularioProjetoCopyWidgetState
                                                             .of(context)
                                                         .secondaryBackground,
                                                     contentPadding:
-                                                        const EdgeInsets.all(24.0),
+                                                        EdgeInsets.all(24.0),
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -4942,7 +4980,7 @@ class _FormularioProjetoCopyWidgetState
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       0.0, 16.0, 0.0, 0.0),
                                               child: Column(
@@ -5067,7 +5105,7 @@ class _FormularioProjetoCopyWidgetState
                                                                           .text),
                                                                   1.0,
                                                                 ) <
-                                                            1) ||
+                                                            0.75) ||
                                                         ((valueOrDefault<
                                                                         double>(
                                                                       double.tryParse(_model
@@ -5090,7 +5128,7 @@ class _FormularioProjetoCopyWidgetState
                                                                           .text),
                                                                   1.0,
                                                                 ) >
-                                                            2)),
+                                                            1.5)),
                                                     true,
                                                   ))
                                                     Row(
@@ -5099,11 +5137,11 @@ class _FormularioProjetoCopyWidgetState
                                                       children: [
                                                         Align(
                                                           alignment:
-                                                              const AlignmentDirectional(
+                                                              AlignmentDirectional(
                                                                   -1.0, 0.0),
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         0.0,
@@ -5120,7 +5158,7 @@ class _FormularioProjetoCopyWidgetState
                                                           ),
                                                         ),
                                                         Text(
-                                                          'Dica: tente manter a margem estática entre \n1,0 e 2,0 cal.',
+                                                          'Dica: tente manter a margem estática entre \n0,75 e 1,5 cal.',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium
@@ -5153,14 +5191,14 @@ class _FormularioProjetoCopyWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 5.0),
                                       child: Text(
                                         'Edite a foto e finalize!',
@@ -5181,7 +5219,7 @@ class _FormularioProjetoCopyWidgetState
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 16.0),
                                       child: Text(
                                         'Caso queira, edite a foto do seu foguete construído e finalize o projeto.',
@@ -5327,7 +5365,10 @@ class _FormularioProjetoCopyWidgetState
                                                 ),
                                               ),
                                               child: Visibility(
-                                                visible: _model.uploadedFileUrl !=
+                                                visible: _model
+                                                            .uploadedFileUrl !=
+                                                        null &&
+                                                    _model.uploadedFileUrl !=
                                                         '',
                                                 child: ClipRRect(
                                                   borderRadius:
@@ -5335,7 +5376,8 @@ class _FormularioProjetoCopyWidgetState
                                                           8.0),
                                                   child: Image.network(
                                                     valueOrDefault<String>(
-                                                      _model.uploadedFileUrl ==
+                                                      _model.uploadedFileUrl == null ||
+                                                              _model.uploadedFileUrl ==
                                                                   ''
                                                           ? formularioProjetoCopyFoguetesRecord
                                                               .imagem
@@ -5389,7 +5431,8 @@ class _FormularioProjetoCopyWidgetState
                                           cg: double.tryParse(
                                               _model.cgTextController.text),
                                           imagem: valueOrDefault<String>(
-                                            _model.uploadedFileUrl == ''
+                                            _model.uploadedFileUrl == null ||
+                                                    _model.uploadedFileUrl == ''
                                                 ? formularioProjetoCopyFoguetesRecord
                                                     .imagem
                                                 : _model.uploadedFileUrl,
@@ -5472,7 +5515,7 @@ class _FormularioProjetoCopyWidgetState
                                                       ),
                                             ),
                                             duration:
-                                                const Duration(milliseconds: 4000),
+                                                Duration(milliseconds: 4000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
                                                     .alternate,
@@ -5494,16 +5537,16 @@ class _FormularioProjetoCopyWidgetState
                                         context.safePop();
                                       },
                                       text: 'Finalizar Projeto\n',
-                                      icon: const Icon(
+                                      icon: Icon(
                                         Icons.rocket_launch_outlined,
                                         size: 15.0,
                                       ),
                                       options: FFButtonOptions(
                                         height: 60.0,
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             24.0, 0.0, 24.0, 0.0),
                                         iconPadding:
-                                            const EdgeInsetsDirectional.fromSTEB(
+                                            EdgeInsetsDirectional.fromSTEB(
                                                 0.0, 0.0, 0.0, 0.0),
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
@@ -5526,7 +5569,7 @@ class _FormularioProjetoCopyWidgetState
                                                           .titleMediumFamily),
                                             ),
                                         elevation: 3.0,
-                                        borderSide: const BorderSide(
+                                        borderSide: BorderSide(
                                           color: Colors.transparent,
                                           width: 1.0,
                                         ),
@@ -5543,7 +5586,7 @@ class _FormularioProjetoCopyWidgetState
                       ],
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
+                      alignment: AlignmentDirectional(0.0, 1.0),
                       child: Material(
                         color: Colors.transparent,
                         elevation: 3.0,
@@ -5559,7 +5602,7 @@ class _FormularioProjetoCopyWidgetState
                             ),
                           ),
                           child: Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -5583,7 +5626,7 @@ class _FormularioProjetoCopyWidgetState
                                               0,
                                               _model.tabBarController!.index -
                                                   1),
-                                          duration: const Duration(milliseconds: 300),
+                                          duration: Duration(milliseconds: 300),
                                           curve: Curves.ease,
                                         );
                                       });
@@ -5592,9 +5635,9 @@ class _FormularioProjetoCopyWidgetState
                                   text: 'Voltar',
                                   options: FFButtonOptions(
                                     height: 40.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
@@ -5613,7 +5656,7 @@ class _FormularioProjetoCopyWidgetState
                                                       .titleSmallFamily),
                                         ),
                                     elevation: 0.0,
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                       color: Colors.transparent,
                                       width: 1.0,
                                     ),
@@ -5633,7 +5676,7 @@ class _FormularioProjetoCopyWidgetState
                                                   1,
                                               _model.tabBarController!.index +
                                                   1),
-                                          duration: const Duration(milliseconds: 300),
+                                          duration: Duration(milliseconds: 300),
                                           curve: Curves.ease,
                                         );
                                       });
@@ -5641,10 +5684,10 @@ class _FormularioProjetoCopyWidgetState
                                     text: 'Próxima',
                                     options: FFButtonOptions(
                                       height: 40.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           24.0, 0.0, 24.0, 0.0),
                                       iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
+                                          EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
                                       color:
                                           FlutterFlowTheme.of(context).primary,
@@ -5662,7 +5705,7 @@ class _FormularioProjetoCopyWidgetState
                                                         .titleSmallFamily),
                                           ),
                                       elevation: 3.0,
-                                      borderSide: const BorderSide(
+                                      borderSide: BorderSide(
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),

@@ -3,8 +3,12 @@ import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'lancamento_details_model.dart';
 export 'lancamento_details_model.dart';
 
@@ -30,6 +34,8 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => LancamentoDetailsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -44,11 +50,11 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
     return FutureBuilder<LancamentosRecord>(
       future: FFAppState().lancamentoIndividual(
         uniqueQueryKey: valueOrDefault<String>(
-          widget.launchSelected?.id,
+          widget!.launchSelected?.id,
           '0',
         ),
         requestFn: () =>
-            LancamentosRecord.getDocumentOnce(widget.launchSelected!),
+            LancamentosRecord.getDocumentOnce(widget!.launchSelected!),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -68,7 +74,9 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
             ),
           );
         }
+
         final lancamentoDetailsLancamentosRecord = snapshot.data!;
+
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -86,7 +94,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                   'FormularioLancamentosEdit',
                   queryParameters: {
                     'lancamento': serializeParam(
-                      widget.launchSelected,
+                      widget!.launchSelected,
                       ParamType.DocumentReference,
                     ),
                   }.withoutNulls,
@@ -156,18 +164,18 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                           context: context,
                           builder: (alertDialogContext) {
                             return AlertDialog(
-                              title: const Text('Confirmação'),
-                              content: const Text('Deseja excluir o projeto?'),
+                              title: Text('Confirmação'),
+                              content: Text('Deseja excluir o projeto?'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, false),
-                                  child: const Text('Cancelar'),
+                                  child: Text('Cancelar'),
                                 ),
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, true),
-                                  child: const Text('Confirmar'),
+                                  child: Text('Confirmar'),
                                 ),
                               ],
                             );
@@ -175,7 +183,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                         ) ??
                         false;
                     if (confirmDialogResponse) {
-                      await widget.launchSelected!.delete();
+                      await widget!.launchSelected!.delete();
                       FFAppState().isProjectCreated = true;
                       setState(() {});
                       context.safePop();
@@ -189,14 +197,15 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (valueOrDefault<bool>(
-                        (lancamentoDetailsLancamentosRecord.imagem !=
+                        (lancamentoDetailsLancamentosRecord.imagem != null &&
+                                lancamentoDetailsLancamentosRecord.imagem !=
                                     '') &&
                             (lancamentoDetailsLancamentosRecord.imagem != ''),
                         false,
@@ -240,7 +249,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                         ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                         child: Text(
                           valueOrDefault<String>(
                             lancamentoDetailsLancamentosRecord.nomeFoguete,
@@ -261,7 +270,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -307,7 +316,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 8.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -358,7 +367,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                         color: FlutterFlowTheme.of(context).lineColor,
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
                           'Foguete',
                           style: FlutterFlowTheme.of(context)
@@ -376,15 +385,15 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Align(
-                              alignment: const AlignmentDirectional(0.0, 0.0),
+                              alignment: AlignmentDirectional(0.0, 0.0),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 12.0),
                                 child: InkWell(
                                   splashColor: Colors.transparent,
@@ -408,7 +417,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
-                                      boxShadow: const [
+                                      boxShadow: [
                                         BoxShadow(
                                           blurRadius: 3.0,
                                           color: Color(0x25090F13),
@@ -424,9 +433,9 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                                             .lineColor,
                                       ),
                                     ),
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
+                                    alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 12.0, 12.0, 12.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -435,7 +444,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                                         children: [
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(0.0, 0.0),
+                                                AlignmentDirectional(0.0, 0.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
@@ -474,7 +483,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                                                     ),
                                                   ],
                                                 ),
-                                                const Icon(
+                                                Icon(
                                                   Icons
                                                       .keyboard_arrow_right_rounded,
                                                   color: Color(0xFF7E7E7E),
@@ -498,7 +507,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                         color: FlutterFlowTheme.of(context).lineColor,
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
                           'Dados Climáticos',
                           style: FlutterFlowTheme.of(context)
@@ -516,7 +525,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -575,7 +584,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -621,7 +630,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -671,7 +680,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                         color: FlutterFlowTheme.of(context).lineColor,
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
                           'Mistura e Reação',
                           style: FlutterFlowTheme.of(context)
@@ -689,7 +698,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -750,7 +759,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -812,7 +821,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -874,7 +883,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                         color: FlutterFlowTheme.of(context).lineColor,
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
                           'Pressurização',
                           style: FlutterFlowTheme.of(context)
@@ -892,7 +901,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -950,7 +959,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1015,7 +1024,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                         color: FlutterFlowTheme.of(context).lineColor,
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
                           'Vôo e Pouso',
                           style: FlutterFlowTheme.of(context)
@@ -1033,7 +1042,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1076,7 +1085,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1137,7 +1146,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1205,7 +1214,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1267,7 +1276,7 @@ class _LancamentoDetailsWidgetState extends State<LancamentoDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,

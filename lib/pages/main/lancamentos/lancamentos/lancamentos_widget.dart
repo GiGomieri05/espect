@@ -3,8 +3,10 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'lancamentos_model.dart';
 export 'lancamentos_model.dart';
 
@@ -24,6 +26,8 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => LancamentosModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -81,7 +85,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                       FlutterFlowTheme.of(context).headlineMediumFamily),
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -91,7 +95,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: StreamBuilder<List<LancamentosRecord>>(
                   stream: _model.listaDeLancamentos(
                     uniqueQueryKey: currentUserUid,
@@ -120,6 +124,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                     }
                     List<LancamentosRecord> listViewLancamentosRecordList =
                         snapshot.data!;
+
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       primary: false,
@@ -130,9 +135,9 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                         final listViewLancamentosRecord =
                             listViewLancamentosRecordList[listViewIndex];
                         return Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
+                          alignment: AlignmentDirectional(0.0, 0.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 12.0),
                             child: InkWell(
                               splashColor: Colors.transparent,
@@ -158,7 +163,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
                                       blurRadius: 3.0,
                                       color: Color(0x25090F13),
@@ -174,9 +179,9 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                         FlutterFlowTheme.of(context).lineColor,
                                   ),
                                 ),
-                                alignment: const AlignmentDirectional(0.0, 0.0),
+                                alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 8.0, 12.0, 12.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -184,7 +189,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                         CrossAxisAlignment.stretch,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(8.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -248,7 +253,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                                       ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           5.0, 0.0, 0.0, 0.0),
                                                   child: Text(
@@ -288,7 +293,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                               ],
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 8.0, 0.0, 0.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
@@ -356,7 +361,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 5.0, 0.0, 0.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
@@ -365,7 +370,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 10.0, 0.0),
                                                     child:
@@ -415,7 +420,7 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                                     buttonSize: 40.0,
                                                     fillColor:
                                                         Colors.transparent,
-                                                    icon: const Icon(
+                                                    icon: Icon(
                                                       Icons.delete_rounded,
                                                       color: Color(0xFF7E7E7E),
                                                       size: 24.0,
@@ -429,23 +434,23 @@ class _LancamentosWidgetState extends State<LancamentosWidget> {
                                                                 builder:
                                                                     (alertDialogContext) {
                                                                   return AlertDialog(
-                                                                    title: const Text(
+                                                                    title: Text(
                                                                         'Confirmação'),
-                                                                    content: const Text(
+                                                                    content: Text(
                                                                         'Deseja excluir o projeto?'),
                                                                     actions: [
                                                                       TextButton(
                                                                         onPressed: () => Navigator.pop(
                                                                             alertDialogContext,
                                                                             false),
-                                                                        child: const Text(
+                                                                        child: Text(
                                                                             'Cancelar'),
                                                                       ),
                                                                       TextButton(
                                                                         onPressed: () => Navigator.pop(
                                                                             alertDialogContext,
                                                                             true),
-                                                                        child: const Text(
+                                                                        child: Text(
                                                                             'Confirmar'),
                                                                       ),
                                                                     ],

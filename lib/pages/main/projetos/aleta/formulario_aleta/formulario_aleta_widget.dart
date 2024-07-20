@@ -8,8 +8,11 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'formulario_aleta_model.dart';
 export 'formulario_aleta_model.dart';
 
@@ -45,6 +48,8 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
     _model.pressaolimitedagarrafaempsiTextController ??=
         TextEditingController();
     _model.pressaolimitedagarrafaempsiFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -71,7 +76,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
             borderRadius: 30.0,
             borderWidth: 1.0,
             buttonSize: 60.0,
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
               size: 30.0,
@@ -91,7 +96,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                       FlutterFlowTheme.of(context).headlineMediumFamily),
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -100,19 +105,19 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
           child: Stack(
             children: [
               Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 child: Padding(
                   padding:
-                      const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 80.0),
+                      EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 80.0),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller: _model.nomeGarrafaTextController,
@@ -166,7 +171,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -189,7 +194,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 8.0),
                           child: FlutterFlowDropDown<String>(
                             controller: _model.statusDropDownValueController ??=
@@ -207,7 +212,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                               'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/espect-9go6zg/assets/r7ggv1sfoet8/formato_curvada.png',
                               'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/espect-9go6zg/assets/55pbnjcec8zv/eliptica.png'
                             ]),
-                            optionLabels: const [
+                            optionLabels: [
                               'Triangular',
                               'Trapezoidal',
                               'Trapézio Isósceles',
@@ -247,7 +252,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                             borderColor: FlutterFlowTheme.of(context).lineColor,
                             borderWidth: 2.0,
                             borderRadius: 50.0,
-                            margin: const EdgeInsetsDirectional.fromSTEB(
+                            margin: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 4.0, 16.0, 4.0),
                             hidesUnderline: true,
                             isOverButton: true,
@@ -270,9 +275,9 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                   child: FlutterFlowExpandedImageView(
                                     image: CachedNetworkImage(
                                       fadeInDuration:
-                                          const Duration(milliseconds: 200),
+                                          Duration(milliseconds: 200),
                                       fadeOutDuration:
-                                          const Duration(milliseconds: 200),
+                                          Duration(milliseconds: 200),
                                       imageUrl: _model.statusDropDownValue!,
                                       fit: BoxFit.contain,
                                     ),
@@ -289,8 +294,8 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: CachedNetworkImage(
-                                  fadeInDuration: const Duration(milliseconds: 200),
-                                  fadeOutDuration: const Duration(milliseconds: 200),
+                                  fadeInDuration: Duration(milliseconds: 200),
+                                  fadeOutDuration: Duration(milliseconds: 200),
                                   imageUrl: _model.statusDropDownValue!,
                                   width: double.infinity,
                                   height: 200.0,
@@ -304,7 +309,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                           color: FlutterFlowTheme.of(context).lineColor,
                         ),
                         Align(
-                          alignment: const AlignmentDirectional(-1.0, 0.0),
+                          alignment: AlignmentDirectional(-1.0, 0.0),
                           child: Text(
                             'Dimensões:',
                             style: FlutterFlowTheme.of(context)
@@ -321,9 +326,9 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller:
@@ -379,7 +384,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -404,9 +409,9 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller: _model.alturadagarrafaTextController,
@@ -461,7 +466,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -486,9 +491,9 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller: _model.massadagarrafaTextController,
@@ -543,7 +548,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -568,9 +573,9 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller: _model
@@ -627,7 +632,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -652,7 +657,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: InkWell(
                             splashColor: Colors.transparent,
@@ -697,7 +702,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                 ),
               ),
               Align(
-                alignment: const AlignmentDirectional(0.0, 1.0),
+                alignment: AlignmentDirectional(0.0, 1.0),
                 child: Material(
                   color: Colors.transparent,
                   elevation: 3.0,
@@ -711,7 +716,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                       ),
                     ),
                     child: Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -723,9 +728,9 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                             text: 'Voltar',
                             options: FFButtonOptions(
                               height: 40.0,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   24.0, 0.0, 24.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context)
                                   .primaryBackground,
@@ -743,7 +748,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                                 .titleSmallFamily),
                                   ),
                               elevation: 0.0,
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1.0,
                               ),
@@ -779,7 +784,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                           .primaryBtnText,
                                     ),
                                   ),
-                                  duration: const Duration(milliseconds: 4000),
+                                  duration: Duration(milliseconds: 4000),
                                   backgroundColor: FlutterFlowTheme.of(context)
                                       .backgroundComponents,
                                 ),
@@ -789,9 +794,9 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                             text: 'Salvar',
                             options: FFButtonOptions(
                               height: 40.0,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   24.0, 0.0, 24.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context)
@@ -807,7 +812,7 @@ class _FormularioAletaWidgetState extends State<FormularioAletaWidget> {
                                                 .titleSmallFamily),
                                   ),
                               elevation: 3.0,
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1.0,
                               ),

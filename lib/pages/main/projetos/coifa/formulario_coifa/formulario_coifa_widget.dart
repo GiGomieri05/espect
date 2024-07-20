@@ -6,8 +6,10 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'formulario_coifa_model.dart';
 export 'formulario_coifa_model.dart';
 
@@ -43,6 +45,8 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
     _model.pressaolimitedagarrafaempsiTextController ??=
         TextEditingController();
     _model.pressaolimitedagarrafaempsiFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -69,7 +73,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
             borderRadius: 30.0,
             borderWidth: 1.0,
             buttonSize: 60.0,
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
               size: 30.0,
@@ -79,7 +83,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
             },
           ),
           title: Text(
-            'Nova Coifa',
+            'Editar ',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: FlutterFlowTheme.of(context).headlineMediumFamily,
                   color: Colors.white,
@@ -89,7 +93,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                       FlutterFlowTheme.of(context).headlineMediumFamily),
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -98,19 +102,19 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
           child: Stack(
             children: [
               Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 child: Padding(
                   padding:
-                      const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 80.0),
+                      EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 80.0),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 8.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller: _model.nomeGarrafaTextController,
@@ -164,7 +168,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -191,9 +195,9 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                           color: FlutterFlowTheme.of(context).lineColor,
                         ),
                         Align(
-                          alignment: const AlignmentDirectional(-1.0, 0.0),
+                          alignment: AlignmentDirectional(-1.0, 0.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 8.0, 0.0, 0.0),
                             child: Text(
                               'Dimensões:',
@@ -213,9 +217,9 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller:
@@ -271,7 +275,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -296,9 +300,9 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller: _model.alturadagarrafaTextController,
@@ -353,7 +357,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -378,9 +382,9 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller: _model.massadagarrafaTextController,
@@ -435,7 +439,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -457,9 +461,9 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: double.infinity,
                             child: TextFormField(
                               controller: _model
@@ -516,7 +520,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                contentPadding: const EdgeInsets.all(24.0),
+                                contentPadding: EdgeInsets.all(24.0),
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
@@ -541,7 +545,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -637,9 +641,10 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                     ),
                                   ),
                                   child: Visibility(
-                                    visible: _model.uploadedFileUrl != '',
+                                    visible: _model.uploadedFileUrl != null &&
+                                        _model.uploadedFileUrl != '',
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 16.0, 0.0, 0.0),
                                       child: ClipRRect(
                                         borderRadius:
@@ -668,7 +673,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                 ),
               ),
               Align(
-                alignment: const AlignmentDirectional(0.0, 1.0),
+                alignment: AlignmentDirectional(0.0, 1.0),
                 child: Material(
                   color: Colors.transparent,
                   elevation: 3.0,
@@ -682,7 +687,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                       ),
                     ),
                     child: Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -694,9 +699,9 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                             text: 'Voltar',
                             options: FFButtonOptions(
                               height: 40.0,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   24.0, 0.0, 24.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context)
                                   .primaryBackground,
@@ -714,7 +719,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                                 .titleSmallFamily),
                                   ),
                               elevation: 0.0,
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1.0,
                               ),
@@ -750,7 +755,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                           .primaryBtnText,
                                     ),
                                   ),
-                                  duration: const Duration(milliseconds: 4000),
+                                  duration: Duration(milliseconds: 4000),
                                   backgroundColor: FlutterFlowTheme.of(context)
                                       .backgroundComponents,
                                 ),
@@ -760,9 +765,9 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                             text: 'Salvar',
                             options: FFButtonOptions(
                               height: 40.0,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   24.0, 0.0, 24.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context)
@@ -778,7 +783,7 @@ class _FormularioCoifaWidgetState extends State<FormularioCoifaWidget> {
                                                 .titleSmallFamily),
                                   ),
                               elevation: 3.0,
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1.0,
                               ),

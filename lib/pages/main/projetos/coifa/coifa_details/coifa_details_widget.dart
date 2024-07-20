@@ -3,8 +3,12 @@ import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'coifa_details_model.dart';
 export 'coifa_details_model.dart';
 
@@ -29,6 +33,8 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CoifaDetailsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -43,10 +49,10 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
     return FutureBuilder<CoifaRecord>(
       future: FFAppState().queryDeDocumentoIndividualDaCoifa(
         uniqueQueryKey: valueOrDefault<String>(
-          widget.coifaSelected?.id,
+          widget!.coifaSelected?.id,
           '0',
         ),
-        requestFn: () => CoifaRecord.getDocumentOnce(widget.coifaSelected!),
+        requestFn: () => CoifaRecord.getDocumentOnce(widget!.coifaSelected!),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -66,7 +72,9 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
             ),
           );
         }
+
         final coifaDetailsCoifaRecord = snapshot.data!;
+
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -80,7 +88,7 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                   'FormularioCoifaEdit',
                   queryParameters: {
                     'coifaParaEditar': serializeParam(
-                      widget.coifaSelected,
+                      widget!.coifaSelected,
                       ParamType.DocumentReference,
                     ),
                   }.withoutNulls,
@@ -150,18 +158,18 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                           context: context,
                           builder: (alertDialogContext) {
                             return AlertDialog(
-                              title: const Text('Confirmação'),
-                              content: const Text('Deseja excluir o projeto?'),
+                              title: Text('Confirmação'),
+                              content: Text('Deseja excluir o projeto?'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, false),
-                                  child: const Text('Cancelar'),
+                                  child: Text('Cancelar'),
                                 ),
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, true),
-                                  child: const Text('Confirmar'),
+                                  child: Text('Confirmar'),
                                 ),
                               ],
                             );
@@ -169,7 +177,7 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                         ) ??
                         false;
                     if (confirmDialogResponse) {
-                      await widget.coifaSelected!.delete();
+                      await widget!.coifaSelected!.delete();
                       FFAppState().isProjectCreated = true;
                       setState(() {});
                       FFAppState().clearListaDeAletasCache();
@@ -184,14 +192,15 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (valueOrDefault<bool>(
-                        (coifaDetailsCoifaRecord.imagem != '') &&
+                        (coifaDetailsCoifaRecord.imagem != null &&
+                                coifaDetailsCoifaRecord.imagem != '') &&
                             (coifaDetailsCoifaRecord.imagem != ''),
                         false,
                       ))
@@ -233,7 +242,7 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                         ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                         child: Text(
                           valueOrDefault<String>(
                             coifaDetailsCoifaRecord.formato,
@@ -253,9 +262,9 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                         ),
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: Text(
                             'Dimensões',
@@ -275,7 +284,7 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,7 +348,7 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -403,7 +412,7 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -467,7 +476,7 @@ class _CoifaDetailsWidgetState extends State<CoifaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,

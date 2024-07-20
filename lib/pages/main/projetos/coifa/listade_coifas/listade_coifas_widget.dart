@@ -3,9 +3,11 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'listade_coifas_model.dart';
 export 'listade_coifas_model.dart';
 
@@ -25,6 +27,8 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ListadeCoifasModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -51,7 +55,7 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
             borderRadius: 30.0,
             borderWidth: 1.0,
             buttonSize: 60.0,
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
               size: 30.0,
@@ -71,14 +75,14 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                       FlutterFlowTheme.of(context).headlineMediumFamily),
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -108,6 +112,7 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                       );
                     }
                     List<CoifaRecord> listViewCoifaRecordList = snapshot.data!;
+
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
@@ -117,7 +122,7 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                         final listViewCoifaRecord =
                             listViewCoifaRecordList[listViewIndex];
                         return Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 6.0, 0.0, 6.0),
                           child: InkWell(
                             splashColor: Colors.transparent,
@@ -140,7 +145,7 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
                                     blurRadius: 3.0,
                                     color: Color(0x25090F13),
@@ -153,7 +158,7 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     12.0, 8.0, 12.0, 12.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -168,9 +173,9 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                                               BorderRadius.circular(8.0),
                                           child: CachedNetworkImage(
                                             fadeInDuration:
-                                                const Duration(milliseconds: 200),
+                                                Duration(milliseconds: 200),
                                             fadeOutDuration:
-                                                const Duration(milliseconds: 200),
+                                                Duration(milliseconds: 200),
                                             imageUrl:
                                                 listViewCoifaRecord.imagem,
                                             width: 75.0,
@@ -180,7 +185,7 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 0.0, 0.0, 0.0),
                                           child: Text(
                                             listViewCoifaRecord.formato
@@ -206,7 +211,7 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                                         ),
                                       ],
                                     ),
-                                    const Icon(
+                                    Icon(
                                       Icons.keyboard_arrow_right_rounded,
                                       color: Color(0xFF7E7E7E),
                                       size: 24.0,
@@ -222,7 +227,7 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 6.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 6.0),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
@@ -244,14 +249,14 @@ class _ListadeCoifasWidgetState extends State<ListadeCoifasWidget> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               12.0, 12.0, 12.0, 12.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 6.0, 0.0),
                                 child: Icon(
                                   Icons.add_circle,

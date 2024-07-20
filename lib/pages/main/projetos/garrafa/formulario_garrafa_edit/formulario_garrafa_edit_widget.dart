@@ -6,8 +6,10 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'formulario_garrafa_edit_model.dart';
 export 'formulario_garrafa_edit_model.dart';
 
@@ -46,6 +48,8 @@ class _FormularioGarrafaEditWidgetState
     _model.massadagarrafaFocusNode ??= FocusNode();
 
     _model.pressaolimitedagarrafaempsiFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -58,7 +62,7 @@ class _FormularioGarrafaEditWidgetState
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<GarrafaRecord>(
-      future: GarrafaRecord.getDocumentOnce(widget.garrafaParaEditar!),
+      future: GarrafaRecord.getDocumentOnce(widget!.garrafaParaEditar!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -77,7 +81,9 @@ class _FormularioGarrafaEditWidgetState
             ),
           );
         }
+
         final formularioGarrafaEditGarrafaRecord = snapshot.data!;
+
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -93,7 +99,7 @@ class _FormularioGarrafaEditWidgetState
                 borderRadius: 30.0,
                 borderWidth: 1.0,
                 buttonSize: 60.0,
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_rounded,
                   color: Colors.white,
                   size: 30.0,
@@ -114,7 +120,7 @@ class _FormularioGarrafaEditWidgetState
                           FlutterFlowTheme.of(context).headlineMediumFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: false,
               elevation: 2.0,
             ),
@@ -123,19 +129,19 @@ class _FormularioGarrafaEditWidgetState
               child: Stack(
                 children: [
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.0, 0.0),
                     child: Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 80.0),
+                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 80.0),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
-                              child: SizedBox(
+                              child: Container(
                                 width: double.infinity,
                                 child: TextFormField(
                                   controller:
@@ -198,7 +204,7 @@ class _FormularioGarrafaEditWidgetState
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    contentPadding: const EdgeInsets.all(24.0),
+                                    contentPadding: EdgeInsets.all(24.0),
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleMedium
@@ -221,9 +227,9 @@ class _FormularioGarrafaEditWidgetState
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
-                              child: SizedBox(
+                              child: Container(
                                 width: double.infinity,
                                 child: TextFormField(
                                   controller:
@@ -290,7 +296,7 @@ class _FormularioGarrafaEditWidgetState
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    contentPadding: const EdgeInsets.all(24.0),
+                                    contentPadding: EdgeInsets.all(24.0),
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleMedium
@@ -315,9 +321,9 @@ class _FormularioGarrafaEditWidgetState
                               ),
                             ),
                             Align(
-                              alignment: const AlignmentDirectional(-1.0, 0.0),
+                              alignment: AlignmentDirectional(-1.0, 0.0),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 16.0, 0.0, 16.0),
                                 child: Container(
                                   height: 60.0,
@@ -332,16 +338,16 @@ class _FormularioGarrafaEditWidgetState
                                     ),
                                   ),
                                   child: Align(
-                                    alignment: const AlignmentDirectional(-1.0, 0.0),
+                                    alignment: AlignmentDirectional(-1.0, 0.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Expanded(
                                           child: Align(
                                             alignment:
-                                                const AlignmentDirectional(-1.0, 0.0),
+                                                AlignmentDirectional(-1.0, 0.0),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 32.0, 0.0),
                                               child: Theme(
@@ -414,7 +420,7 @@ class _FormularioGarrafaEditWidgetState
                               color: FlutterFlowTheme.of(context).lineColor,
                             ),
                             Align(
-                              alignment: const AlignmentDirectional(-1.0, 0.0),
+                              alignment: AlignmentDirectional(-1.0, 0.0),
                               child: Text(
                                 'Dimensões:',
                                 style: FlutterFlowTheme.of(context)
@@ -433,9 +439,9 @@ class _FormularioGarrafaEditWidgetState
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
-                              child: SizedBox(
+                              child: Container(
                                 width: double.infinity,
                                 child: TextFormField(
                                   controller:
@@ -500,7 +506,7 @@ class _FormularioGarrafaEditWidgetState
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    contentPadding: const EdgeInsets.all(24.0),
+                                    contentPadding: EdgeInsets.all(24.0),
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleMedium
@@ -525,9 +531,9 @@ class _FormularioGarrafaEditWidgetState
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
-                              child: SizedBox(
+                              child: Container(
                                 width: double.infinity,
                                 child: TextFormField(
                                   controller:
@@ -592,7 +598,7 @@ class _FormularioGarrafaEditWidgetState
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    contentPadding: const EdgeInsets.all(24.0),
+                                    contentPadding: EdgeInsets.all(24.0),
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleMedium
@@ -617,9 +623,9 @@ class _FormularioGarrafaEditWidgetState
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
-                              child: SizedBox(
+                              child: Container(
                                 width: double.infinity,
                                 child: TextFormField(
                                   controller:
@@ -684,7 +690,7 @@ class _FormularioGarrafaEditWidgetState
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    contentPadding: const EdgeInsets.all(24.0),
+                                    contentPadding: EdgeInsets.all(24.0),
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleMedium
@@ -709,9 +715,9 @@ class _FormularioGarrafaEditWidgetState
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
-                              child: SizedBox(
+                              child: Container(
                                 width: double.infinity,
                                 child: TextFormField(
                                   controller: _model
@@ -778,7 +784,7 @@ class _FormularioGarrafaEditWidgetState
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    contentPadding: const EdgeInsets.all(24.0),
+                                    contentPadding: EdgeInsets.all(24.0),
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .titleMedium
@@ -807,7 +813,7 @@ class _FormularioGarrafaEditWidgetState
                               color: FlutterFlowTheme.of(context).lineColor,
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -896,7 +902,8 @@ class _FormularioGarrafaEditWidgetState
                                           fit: BoxFit.fitHeight,
                                           image: Image.network(
                                             valueOrDefault<String>(
-                                              _model.uploadedFileUrl ==
+                                              _model.uploadedFileUrl == null ||
+                                                      _model.uploadedFileUrl ==
                                                           ''
                                                   ? formularioGarrafaEditGarrafaRecord
                                                       .imagem
@@ -914,7 +921,8 @@ class _FormularioGarrafaEditWidgetState
                                       ),
                                       child: Visibility(
                                         visible:
-                                            _model.uploadedFileUrl != '',
+                                            _model.uploadedFileUrl != null &&
+                                                _model.uploadedFileUrl != '',
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(8.0),
@@ -941,7 +949,7 @@ class _FormularioGarrafaEditWidgetState
                     ),
                   ),
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 1.0),
+                    alignment: AlignmentDirectional(0.0, 1.0),
                     child: Material(
                       color: Colors.transparent,
                       elevation: 3.0,
@@ -956,7 +964,7 @@ class _FormularioGarrafaEditWidgetState
                           ),
                         ),
                         child: Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
+                          alignment: AlignmentDirectional(0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -968,9 +976,9 @@ class _FormularioGarrafaEditWidgetState
                                 text: 'Voltar',
                                 options: FFButtonOptions(
                                   height: 40.0,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       24.0, 0.0, 24.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
                                   color: FlutterFlowTheme.of(context)
                                       .primaryBackground,
@@ -988,7 +996,7 @@ class _FormularioGarrafaEditWidgetState
                                                     .titleSmallFamily),
                                       ),
                                   elevation: 0.0,
-                                  borderSide: const BorderSide(
+                                  borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),
@@ -997,7 +1005,7 @@ class _FormularioGarrafaEditWidgetState
                               ),
                               FFButtonWidget(
                                 onPressed: () async {
-                                  await widget.garrafaParaEditar!
+                                  await widget!.garrafaParaEditar!
                                       .update(createGarrafaRecordData(
                                     nome: _model.nomeGarrafaTextController.text,
                                     volume: double.tryParse(_model
@@ -1018,7 +1026,7 @@ class _FormularioGarrafaEditWidgetState
                                   ));
                                   FFAppState().clearGarrafaIndividualCacheKey(
                                       valueOrDefault<String>(
-                                    widget.garrafaParaEditar?.id,
+                                    widget!.garrafaParaEditar?.id,
                                     '0',
                                   ));
                                   FFAppState()
@@ -1032,7 +1040,7 @@ class _FormularioGarrafaEditWidgetState
                                               .primaryBtnText,
                                         ),
                                       ),
-                                      duration: const Duration(milliseconds: 4000),
+                                      duration: Duration(milliseconds: 4000),
                                       backgroundColor:
                                           FlutterFlowTheme.of(context)
                                               .backgroundComponents,
@@ -1043,9 +1051,9 @@ class _FormularioGarrafaEditWidgetState
                                 text: 'Salvar',
                                 options: FFButtonOptions(
                                   height: 40.0,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       24.0, 0.0, 24.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
                                   color: FlutterFlowTheme.of(context).primary,
                                   textStyle: FlutterFlowTheme.of(context)
@@ -1061,7 +1069,7 @@ class _FormularioGarrafaEditWidgetState
                                                     .titleSmallFamily),
                                       ),
                                   elevation: 3.0,
-                                  borderSide: const BorderSide(
+                                  borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),

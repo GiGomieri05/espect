@@ -9,10 +9,12 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'formulario_lancamentos_edit_model.dart';
 export 'formulario_lancamentos_edit_model.dart';
@@ -22,7 +24,7 @@ class FormularioLancamentosEditWidget extends StatefulWidget {
     super.key,
     bool? isCreatedProject,
     required this.lancamento,
-  }) : isCreatedProject = isCreatedProject ?? false;
+  }) : this.isCreatedProject = isCreatedProject ?? false;
 
   final bool isCreatedProject;
   final DocumentReference? lancamento;
@@ -72,6 +74,7 @@ class _FormularioLancamentosEditWidgetState
 
     _model.alcanceFocusNode ??= FocusNode();
     _model.alcanceFocusNode!.addListener(() => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -88,10 +91,10 @@ class _FormularioLancamentosEditWidgetState
     return FutureBuilder<LancamentosRecord>(
       future: FFAppState().lancamentoIndividual(
         uniqueQueryKey: valueOrDefault<String>(
-          widget.lancamento?.id,
+          widget!.lancamento?.id,
           '0',
         ),
-        requestFn: () => LancamentosRecord.getDocumentOnce(widget.lancamento!),
+        requestFn: () => LancamentosRecord.getDocumentOnce(widget!.lancamento!),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -111,7 +114,9 @@ class _FormularioLancamentosEditWidgetState
             ),
           );
         }
+
         final formularioLancamentosEditLancamentosRecord = snapshot.data!;
+
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -149,20 +154,20 @@ class _FormularioLancamentosEditWidgetState
                           FlutterFlowTheme.of(context).headlineMediumFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: false,
               elevation: 2.0,
             ),
             body: SafeArea(
               top: true,
-              child: SizedBox(
+              child: Container(
                 height: MediaQuery.sizeOf(context).height * 1.0,
                 child: Stack(
                   children: [
                     Column(
                       children: [
                         Align(
-                          alignment: const Alignment(0.0, 0),
+                          alignment: Alignment(0.0, 0),
                           child: TabBar(
                             isScrollable: true,
                             labelColor:
@@ -191,8 +196,8 @@ class _FormularioLancamentosEditWidgetState
                                 ),
                             indicatorColor:
                                 FlutterFlowTheme.of(context).primary,
-                            padding: const EdgeInsets.all(4.0),
-                            tabs: const [
+                            padding: EdgeInsets.all(4.0),
+                            tabs: [
                               Tab(
                                 text: 'Foguete',
                               ),
@@ -227,7 +232,7 @@ class _FormularioLancamentosEditWidgetState
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 16.0, 16.0, 80.0),
                                 child: SingleChildScrollView(
                                   child: Column(
@@ -236,7 +241,7 @@ class _FormularioLancamentosEditWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 5.0),
                                         child: Text(
                                           'Foguete Lançado',
@@ -257,7 +262,7 @@ class _FormularioLancamentosEditWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 16.0),
                                         child: Text(
                                           'Edite qual foguete que você lançou.',
@@ -282,7 +287,9 @@ class _FormularioLancamentosEditWidgetState
                                         color: FlutterFlowTheme.of(context)
                                             .lineColor,
                                       ),
-                                      if (FFAppState().selectedFoguete == '')
+                                      if (FFAppState().selectedFoguete ==
+                                              null ||
+                                          FFAppState().selectedFoguete == '')
                                         FutureBuilder<List<FoguetesRecord>>(
                                           future: _model.listaDeFoguetes(
                                             uniqueQueryKey: currentUserUid,
@@ -318,6 +325,7 @@ class _FormularioLancamentosEditWidgetState
                                             List<FoguetesRecord>
                                                 listViewFoguetesRecordList =
                                                 snapshot.data!;
+
                                             return ListView.builder(
                                               padding: EdgeInsets.zero,
                                               primary: false,
@@ -333,11 +341,11 @@ class _FormularioLancamentosEditWidgetState
                                                         listViewIndex];
                                                 return Align(
                                                   alignment:
-                                                      const AlignmentDirectional(
+                                                      AlignmentDirectional(
                                                           0.0, 0.0),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 6.0,
                                                                 0.0, 6.0),
                                                     child: InkWell(
@@ -370,7 +378,7 @@ class _FormularioLancamentosEditWidgetState
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .secondaryBackground,
-                                                          boxShadow: const [
+                                                          boxShadow: [
                                                             BoxShadow(
                                                               blurRadius: 3.0,
                                                               color: Color(
@@ -392,11 +400,11 @@ class _FormularioLancamentosEditWidgetState
                                                           ),
                                                         ),
                                                         alignment:
-                                                            const AlignmentDirectional(
+                                                            AlignmentDirectional(
                                                                 0.0, 0.0),
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       12.0,
                                                                       12.0,
@@ -412,7 +420,7 @@ class _FormularioLancamentosEditWidgetState
                                                             children: [
                                                               Align(
                                                                 alignment:
-                                                                    const AlignmentDirectional(
+                                                                    AlignmentDirectional(
                                                                         0.0,
                                                                         0.0),
                                                                 child: Row(
@@ -424,9 +432,11 @@ class _FormularioLancamentosEditWidgetState
                                                                           .spaceBetween,
                                                                   children: [
                                                                     if (listViewFoguetesRecord.imagem !=
+                                                                            null &&
+                                                                        listViewFoguetesRecord.imagem !=
                                                                             '')
                                                                       Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             0.0,
                                                                             16.0,
@@ -500,7 +510,7 @@ class _FormularioLancamentosEditWidgetState
                                                                                   ),
                                                                             ),
                                                                             Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
                                                                               child: Text(
                                                                                 valueOrDefault<String>(
                                                                                   dateTimeFormat(
@@ -540,7 +550,7 @@ class _FormularioLancamentosEditWidgetState
                                           null)
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 16.0, 0.0, 0.0),
                                           child: FutureBuilder<FoguetesRecord>(
                                             future: FFAppState()
@@ -569,8 +579,10 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                 );
                                               }
+
                                               final columnFoguetesRecord =
                                                   snapshot.data!;
+
                                               return Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 crossAxisAlignment:
@@ -578,6 +590,9 @@ class _FormularioLancamentosEditWidgetState
                                                 children: [
                                                   if (valueOrDefault<bool>(
                                                     (columnFoguetesRecord
+                                                                    .imagem !=
+                                                                null &&
+                                                            columnFoguetesRecord
                                                                     .imagem !=
                                                                 '') &&
                                                         (columnFoguetesRecord
@@ -645,7 +660,7 @@ class _FormularioLancamentosEditWidgetState
                                                     ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 8.0,
                                                                 0.0, 0.0),
                                                     child: Text(
@@ -674,7 +689,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 8.0,
                                                                 0.0, 8.0),
                                                     child: Row(
@@ -738,7 +753,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Garrafa',
@@ -765,7 +780,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -796,11 +811,11 @@ class _FormularioLancamentosEditWidgetState
                                                             ),
                                                           ),
                                                           alignment:
-                                                              const AlignmentDirectional(
+                                                              AlignmentDirectional(
                                                                   0.0, 0.0),
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         16.0,
                                                                         0.0,
@@ -846,7 +861,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Coifa',
@@ -873,7 +888,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
                                                     child: Container(
@@ -894,11 +909,11 @@ class _FormularioLancamentosEditWidgetState
                                                         ),
                                                       ),
                                                       alignment:
-                                                          const AlignmentDirectional(
+                                                          AlignmentDirectional(
                                                               0.0, 0.0),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -939,7 +954,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1031,7 +1046,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Aleta',
@@ -1058,7 +1073,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1089,11 +1104,11 @@ class _FormularioLancamentosEditWidgetState
                                                             ),
                                                           ),
                                                           alignment:
-                                                              const AlignmentDirectional(
+                                                              AlignmentDirectional(
                                                                   0.0, 0.0),
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         16.0,
                                                                         0.0,
@@ -1113,6 +1128,8 @@ class _FormularioLancamentosEditWidgetState
                                                                           .max,
                                                                   children: [
                                                                     if (columnFoguetesRecord.aletaImagem !=
+                                                                            null &&
+                                                                        columnFoguetesRecord.aletaImagem !=
                                                                             '')
                                                                       ClipRRect(
                                                                         borderRadius:
@@ -1130,7 +1147,7 @@ class _FormularioLancamentosEditWidgetState
                                                                         ),
                                                                       ),
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           16.0,
                                                                           0.0,
                                                                           0.0,
@@ -1161,7 +1178,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1247,7 +1264,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1329,11 +1346,11 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   16.0,
@@ -1389,7 +1406,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1471,7 +1488,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1563,7 +1580,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Dimensões',
@@ -1590,7 +1607,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1676,7 +1693,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1762,7 +1779,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1854,7 +1871,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       'Estabilidade',
@@ -1881,7 +1898,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -1967,7 +1984,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -2053,7 +2070,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
                                                     child: Column(
@@ -2139,14 +2156,17 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   if (FFAppState()
                                                               .selectedFoguete !=
+                                                          null &&
+                                                      FFAppState()
+                                                              .selectedFoguete !=
                                                           '')
                                                     Align(
                                                       alignment:
-                                                          const AlignmentDirectional(
+                                                          AlignmentDirectional(
                                                               0.0, 0.0),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     20.0,
@@ -2177,7 +2197,7 @@ class _FormularioLancamentosEditWidgetState
                                                                         .primaryText,
                                                                   ),
                                                                 ),
-                                                                duration: const Duration(
+                                                                duration: Duration(
                                                                     milliseconds:
                                                                         4000),
                                                                 backgroundColor:
@@ -2192,14 +2212,14 @@ class _FormularioLancamentosEditWidgetState
                                                               FFButtonOptions(
                                                             height: 40.0,
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         24.0,
                                                                         0.0,
                                                                         24.0,
                                                                         0.0),
                                                             iconPadding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         0.0,
@@ -2252,7 +2272,7 @@ class _FormularioLancamentosEditWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: SingleChildScrollView(
                                   primary: false,
                                   child: Column(
@@ -2261,7 +2281,7 @@ class _FormularioLancamentosEditWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 5.0),
                                         child: Text(
                                           'Dados Climáticos',
@@ -2282,7 +2302,7 @@ class _FormularioLancamentosEditWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 8.0),
                                         child: Text(
                                           'Adicione as principais condições climáticas nas quais o foguete foi lançado e entenda os diferentes cenários do lançamento.',
@@ -2308,9 +2328,9 @@ class _FormularioLancamentosEditWidgetState
                                             .lineColor,
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 0.0, 0.0),
-                                        child: SizedBox(
+                                        child: Container(
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller: _model
@@ -2394,7 +2414,7 @@ class _FormularioLancamentosEditWidgetState
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryBackground,
                                               contentPadding:
-                                                  const EdgeInsets.all(24.0),
+                                                  EdgeInsets.all(24.0),
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
@@ -2424,7 +2444,7 @@ class _FormularioLancamentosEditWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 0.0, 0.0),
                                         child: FlutterFlowDropDown<String>(
                                           controller: _model
@@ -2434,7 +2454,7 @@ class _FormularioLancamentosEditWidgetState
                                                 formularioLancamentosEditLancamentosRecord
                                                     .vento,
                                           ),
-                                          options: const [
+                                          options: [
                                             'Sem vento',
                                             'Vento Fraco',
                                             'Vento Médio',
@@ -2480,7 +2500,7 @@ class _FormularioLancamentosEditWidgetState
                                           borderWidth: 2.0,
                                           borderRadius: 50.0,
                                           margin:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 4.0, 16.0, 4.0),
                                           hidesUnderline: true,
                                           isOverButton: true,
@@ -2489,7 +2509,7 @@ class _FormularioLancamentosEditWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 0.0, 0.0),
                                         child: FlutterFlowDropDown<String>(
                                           controller: _model
@@ -2499,7 +2519,7 @@ class _FormularioLancamentosEditWidgetState
                                                 formularioLancamentosEditLancamentosRecord
                                                     .direcaoVento,
                                           ),
-                                          options: const [
+                                          options: [
                                             'A favor do lançamento',
                                             'Contrário ao lançamento',
                                             'Lateral, vindo da direita',
@@ -2546,7 +2566,7 @@ class _FormularioLancamentosEditWidgetState
                                           borderWidth: 2.0,
                                           borderRadius: 50.0,
                                           margin:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 4.0, 16.0, 4.0),
                                           hidesUnderline: true,
                                           isOverButton: true,
@@ -2559,7 +2579,7 @@ class _FormularioLancamentosEditWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 80.0),
                                 child: SingleChildScrollView(
                                   child: Column(
@@ -2569,7 +2589,7 @@ class _FormularioLancamentosEditWidgetState
                                               currentUserDocument?.nivel, 0) ==
                                           3)
                                         Padding(
-                                          padding: const EdgeInsets.all(16.0),
+                                          padding: EdgeInsets.all(16.0),
                                           child: AuthUserStreamWidget(
                                             builder: (context) =>
                                                 SingleChildScrollView(
@@ -2581,7 +2601,7 @@ class _FormularioLancamentosEditWidgetState
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 5.0),
                                                     child: Text(
@@ -2606,7 +2626,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 16.0),
                                                     child: Text(
@@ -2644,7 +2664,7 @@ class _FormularioLancamentosEditWidgetState
                                               currentUserDocument?.nivel, 0) ==
                                           4)
                                         Padding(
-                                          padding: const EdgeInsets.all(16.0),
+                                          padding: EdgeInsets.all(16.0),
                                           child: AuthUserStreamWidget(
                                             builder: (context) =>
                                                 SingleChildScrollView(
@@ -2656,7 +2676,7 @@ class _FormularioLancamentosEditWidgetState
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 5.0),
                                                     child: Text(
@@ -2681,7 +2701,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 16.0),
                                                     child: Text(
@@ -2712,10 +2732,10 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
-                                                    child: SizedBox(
+                                                    child: Container(
                                                       width: double.infinity,
                                                       child: TextFormField(
                                                         controller: _model
@@ -2813,7 +2833,7 @@ class _FormularioLancamentosEditWidgetState
                                                                   .of(context)
                                                               .secondaryBackground,
                                                           contentPadding:
-                                                              const EdgeInsets.all(
+                                                              EdgeInsets.all(
                                                                   24.0),
                                                         ),
                                                         style:
@@ -2848,10 +2868,10 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
-                                                    child: SizedBox(
+                                                    child: Container(
                                                       width: double.infinity,
                                                       child: TextFormField(
                                                         controller: _model
@@ -2949,7 +2969,7 @@ class _FormularioLancamentosEditWidgetState
                                                                   .of(context)
                                                               .secondaryBackground,
                                                           contentPadding:
-                                                              const EdgeInsets.all(
+                                                              EdgeInsets.all(
                                                                   24.0),
                                                         ),
                                                         style:
@@ -2984,10 +3004,10 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 8.0),
-                                                    child: SizedBox(
+                                                    child: Container(
                                                       width: double.infinity,
                                                       child: TextFormField(
                                                         controller: _model
@@ -3084,7 +3104,7 @@ class _FormularioLancamentosEditWidgetState
                                                                   .of(context)
                                                               .secondaryBackground,
                                                           contentPadding:
-                                                              const EdgeInsets.all(
+                                                              EdgeInsets.all(
                                                                   24.0),
                                                         ),
                                                         style:
@@ -3125,7 +3145,7 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 5.0),
                                                     child: Text(
@@ -3150,10 +3170,10 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
-                                                    child: SizedBox(
+                                                    child: Container(
                                                       width: double.infinity,
                                                       child: TextFormField(
                                                         controller: _model
@@ -3251,7 +3271,7 @@ class _FormularioLancamentosEditWidgetState
                                                                   .of(context)
                                                               .secondaryBackground,
                                                           contentPadding:
-                                                              const EdgeInsets.all(
+                                                              EdgeInsets.all(
                                                                   24.0),
                                                         ),
                                                         style:
@@ -3286,10 +3306,10 @@ class _FormularioLancamentosEditWidgetState
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 16.0,
                                                                 0.0, 0.0),
-                                                    child: SizedBox(
+                                                    child: Container(
                                                       width: double.infinity,
                                                       child: TextFormField(
                                                         controller: _model
@@ -3386,7 +3406,7 @@ class _FormularioLancamentosEditWidgetState
                                                                   .of(context)
                                                               .secondaryBackground,
                                                           contentPadding:
-                                                              const EdgeInsets.all(
+                                                              EdgeInsets.all(
                                                                   24.0),
                                                         ),
                                                         style:
@@ -3429,7 +3449,7 @@ class _FormularioLancamentosEditWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 16.0, 16.0, 96.0),
                                 child: SingleChildScrollView(
                                   child: Column(
@@ -3438,7 +3458,7 @@ class _FormularioLancamentosEditWidgetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 5.0),
                                         child: Text(
                                           'Vôo e Pouso',
@@ -3459,7 +3479,7 @@ class _FormularioLancamentosEditWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 16.0),
                                         child: Text(
                                           'Meça o alcance do foguete, e analise o vôo e o pouso do seu foguete.',
@@ -3485,7 +3505,7 @@ class _FormularioLancamentosEditWidgetState
                                             .lineColor,
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 0.0, 0.0),
                                         child: FlutterFlowDropDown<String>(
                                           controller: _model
@@ -3495,7 +3515,7 @@ class _FormularioLancamentosEditWidgetState
                                                 formularioLancamentosEditLancamentosRecord
                                                     .pouso,
                                           ),
-                                          options: const [
+                                          options: [
                                             'Dentro da pista de pouso',
                                             'Fora da pista, à direita',
                                             'Fora da pista, à esquerda'
@@ -3540,7 +3560,7 @@ class _FormularioLancamentosEditWidgetState
                                           borderWidth: 2.0,
                                           borderRadius: 50.0,
                                           margin:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 4.0, 16.0, 4.0),
                                           hidesUnderline: true,
                                           isOverButton: true,
@@ -3549,9 +3569,9 @@ class _FormularioLancamentosEditWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 0.0, 0.0),
-                                        child: SizedBox(
+                                        child: Container(
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller: _model
@@ -3635,7 +3655,7 @@ class _FormularioLancamentosEditWidgetState
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryBackground,
                                               contentPadding:
-                                                  const EdgeInsets.all(24.0),
+                                                  EdgeInsets.all(24.0),
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
@@ -3665,9 +3685,9 @@ class _FormularioLancamentosEditWidgetState
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 0.0, 0.0),
-                                        child: SizedBox(
+                                        child: Container(
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller:
@@ -3682,7 +3702,7 @@ class _FormularioLancamentosEditWidgetState
                                             onChanged: (_) =>
                                                 EasyDebounce.debounce(
                                               '_model.alcanceTextController',
-                                              const Duration(milliseconds: 200),
+                                              Duration(milliseconds: 200),
                                               () => setState(() {}),
                                             ),
                                             autofocus: true,
@@ -3755,7 +3775,7 @@ class _FormularioLancamentosEditWidgetState
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryBackground,
                                               contentPadding:
-                                                  const EdgeInsets.all(24.0),
+                                                  EdgeInsets.all(24.0),
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
@@ -3789,14 +3809,14 @@ class _FormularioLancamentosEditWidgetState
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 5.0),
                                       child: Text(
                                         'Faça os registros e finalize!',
@@ -3817,7 +3837,7 @@ class _FormularioLancamentosEditWidgetState
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 16.0),
                                       child: Text(
                                         'Caso queira, adicione uma foto do seu lançamento e finalize o projeto.',
@@ -3962,7 +3982,10 @@ class _FormularioLancamentosEditWidgetState
                                                 ),
                                               ),
                                               child: Visibility(
-                                                visible: _model.uploadedFileUrl !=
+                                                visible: _model
+                                                            .uploadedFileUrl !=
+                                                        null &&
+                                                    _model.uploadedFileUrl !=
                                                         '',
                                                 child: ClipRRect(
                                                   borderRadius:
@@ -3993,7 +4016,7 @@ class _FormularioLancamentosEditWidgetState
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        await widget.lancamento!
+                                        await widget!.lancamento!
                                             .update(createLancamentosRecordData(
                                           fogueteRef:
                                               _model.fogueteSelecionadoPagina,
@@ -4027,7 +4050,9 @@ class _FormularioLancamentosEditWidgetState
                                           direcaoVento:
                                               _model.direcaoventoDropDownValue,
                                           pouso: _model.pousoDropDownValue,
-                                          imagem: _model.uploadedFileUrl != ''
+                                          imagem: _model.uploadedFileUrl !=
+                                                      null &&
+                                                  _model.uploadedFileUrl != ''
                                               ? _model.uploadedFileUrl
                                               : formularioLancamentosEditLancamentosRecord
                                                   .imagem,
@@ -4060,7 +4085,7 @@ class _FormularioLancamentosEditWidgetState
                                                       ),
                                             ),
                                             duration:
-                                                const Duration(milliseconds: 4000),
+                                                Duration(milliseconds: 4000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
                                                     .alternate,
@@ -4074,16 +4099,16 @@ class _FormularioLancamentosEditWidgetState
                                         context.safePop();
                                       },
                                       text: 'Registrar Lançamento\n',
-                                      icon: const Icon(
+                                      icon: Icon(
                                         Icons.rocket_launch_outlined,
                                         size: 15.0,
                                       ),
                                       options: FFButtonOptions(
                                         height: 60.0,
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             24.0, 0.0, 24.0, 0.0),
                                         iconPadding:
-                                            const EdgeInsetsDirectional.fromSTEB(
+                                            EdgeInsetsDirectional.fromSTEB(
                                                 0.0, 0.0, 0.0, 0.0),
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
@@ -4106,7 +4131,7 @@ class _FormularioLancamentosEditWidgetState
                                                           .titleMediumFamily),
                                             ),
                                         elevation: 3.0,
-                                        borderSide: const BorderSide(
+                                        borderSide: BorderSide(
                                           color: Colors.transparent,
                                           width: 1.0,
                                         ),
@@ -4123,7 +4148,7 @@ class _FormularioLancamentosEditWidgetState
                       ],
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
+                      alignment: AlignmentDirectional(0.0, 1.0),
                       child: Material(
                         color: Colors.transparent,
                         elevation: 3.0,
@@ -4139,7 +4164,7 @@ class _FormularioLancamentosEditWidgetState
                             ),
                           ),
                           child: Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -4161,7 +4186,7 @@ class _FormularioLancamentosEditWidgetState
                                               0,
                                               _model.tabBarController!.index -
                                                   1),
-                                          duration: const Duration(milliseconds: 300),
+                                          duration: Duration(milliseconds: 300),
                                           curve: Curves.ease,
                                         );
                                       });
@@ -4170,9 +4195,9 @@ class _FormularioLancamentosEditWidgetState
                                   text: 'Voltar',
                                   options: FFButtonOptions(
                                     height: 40.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
@@ -4191,7 +4216,7 @@ class _FormularioLancamentosEditWidgetState
                                                       .titleSmallFamily),
                                         ),
                                     elevation: 0.0,
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                       color: Colors.transparent,
                                       width: 1.0,
                                     ),
@@ -4211,7 +4236,7 @@ class _FormularioLancamentosEditWidgetState
                                                   1,
                                               _model.tabBarController!.index +
                                                   1),
-                                          duration: const Duration(milliseconds: 300),
+                                          duration: Duration(milliseconds: 300),
                                           curve: Curves.ease,
                                         );
                                       });
@@ -4219,10 +4244,10 @@ class _FormularioLancamentosEditWidgetState
                                     text: 'Próxima',
                                     options: FFButtonOptions(
                                       height: 40.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           24.0, 0.0, 24.0, 0.0),
                                       iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
+                                          EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
                                       color:
                                           FlutterFlowTheme.of(context).primary,
@@ -4240,7 +4265,7 @@ class _FormularioLancamentosEditWidgetState
                                                         .titleSmallFamily),
                                           ),
                                       elevation: 3.0,
-                                      borderSide: const BorderSide(
+                                      borderSide: BorderSide(
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),

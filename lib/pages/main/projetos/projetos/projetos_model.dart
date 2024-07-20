@@ -1,10 +1,18 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/request_manager.dart';
 
 import 'dart:async';
 import 'projetos_widget.dart' show ProjetosWidget;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ProjetosModel extends FlutterFlowModel<ProjetosWidget> {
   ///  State fields for stateful widgets in this page.
@@ -53,6 +61,51 @@ class ProjetosModel extends FlutterFlowModel<ProjetosWidget> {
   void clearListaDeProjetosCacheKey(String? uniqueKey) =>
       _listaDeProjetosManager.clearRequest(uniqueKey);
 
+  final _projetosNaoLancadosManager = FutureRequestManager<int>();
+  Future<int> projetosNaoLancados({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<int> Function() requestFn,
+  }) =>
+      _projetosNaoLancadosManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearProjetosNaoLancadosCache() => _projetosNaoLancadosManager.clear();
+  void clearProjetosNaoLancadosCacheKey(String? uniqueKey) =>
+      _projetosNaoLancadosManager.clearRequest(uniqueKey);
+
+  final _projetosLancadosManager = FutureRequestManager<int>();
+  Future<int> projetosLancados({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<int> Function() requestFn,
+  }) =>
+      _projetosLancadosManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearProjetosLancadosCache() => _projetosLancadosManager.clear();
+  void clearProjetosLancadosCacheKey(String? uniqueKey) =>
+      _projetosLancadosManager.clearRequest(uniqueKey);
+
+  final _projetosQuebradosManager = FutureRequestManager<int>();
+  Future<int> projetosQuebrados({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<int> Function() requestFn,
+  }) =>
+      _projetosQuebradosManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearProjetosQuebradosCache() => _projetosQuebradosManager.clear();
+  void clearProjetosQuebradosCacheKey(String? uniqueKey) =>
+      _projetosQuebradosManager.clearRequest(uniqueKey);
+
   @override
   void initState(BuildContext context) {}
 
@@ -65,6 +118,12 @@ class ProjetosModel extends FlutterFlowModel<ProjetosWidget> {
     clearProjetosEmConstrucaoCache();
 
     clearListaDeProjetosCache();
+
+    clearProjetosNaoLancadosCache();
+
+    clearProjetosLancadosCache();
+
+    clearProjetosQuebradosCache();
   }
 
   /// Additional helper methods.
@@ -74,7 +133,7 @@ class ProjetosModel extends FlutterFlowModel<ProjetosWidget> {
   }) async {
     final stopwatch = Stopwatch()..start();
     while (true) {
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = firestoreRequestCompleted3;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
@@ -89,7 +148,7 @@ class ProjetosModel extends FlutterFlowModel<ProjetosWidget> {
   }) async {
     final stopwatch = Stopwatch()..start();
     while (true) {
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = firestoreRequestCompleted2;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
@@ -104,7 +163,7 @@ class ProjetosModel extends FlutterFlowModel<ProjetosWidget> {
   }) async {
     final stopwatch = Stopwatch()..start();
     while (true) {
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = firestoreRequestCompleted5;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
@@ -119,7 +178,7 @@ class ProjetosModel extends FlutterFlowModel<ProjetosWidget> {
   }) async {
     final stopwatch = Stopwatch()..start();
     while (true) {
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = firestoreRequestCompleted4;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
@@ -134,7 +193,7 @@ class ProjetosModel extends FlutterFlowModel<ProjetosWidget> {
   }) async {
     final stopwatch = Stopwatch()..start();
     while (true) {
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = firestoreRequestCompleted1;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {

@@ -3,8 +3,10 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'listade_garrafas_model.dart';
 export 'listade_garrafas_model.dart';
 
@@ -24,6 +26,8 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ListadeGarrafasModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -50,7 +54,7 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
             borderRadius: 30.0,
             borderWidth: 1.0,
             buttonSize: 60.0,
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
               size: 30.0,
@@ -70,25 +74,22 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                       FlutterFlowTheme.of(context).headlineMediumFamily),
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 FutureBuilder<List<GarrafaRecord>>(
-                  future: FFAppState().queryDeGarrafasEmLista(
-                    uniqueQueryKey: currentUserUid,
-                    requestFn: () => queryGarrafaRecordOnce(
-                      queryBuilder: (garrafaRecord) => garrafaRecord.where(
-                        'userDono',
-                        isEqualTo: currentUserUid,
-                      ),
+                  future: queryGarrafaRecordOnce(
+                    queryBuilder: (garrafaRecord) => garrafaRecord.where(
+                      'userDono',
+                      isEqualTo: currentUserUid,
                     ),
                   ),
                   builder: (context, snapshot) {
@@ -108,6 +109,7 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                     }
                     List<GarrafaRecord> listViewGarrafaRecordList =
                         snapshot.data!;
+
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
@@ -117,7 +119,7 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                         final listViewGarrafaRecord =
                             listViewGarrafaRecordList[listViewIndex];
                         return Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 6.0, 0.0, 6.0),
                           child: InkWell(
                             splashColor: Colors.transparent,
@@ -140,7 +142,7 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
                                     blurRadius: 3.0,
                                     color: Color(0x25090F13),
@@ -153,7 +155,7 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     12.0, 8.0, 12.0, 12.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
@@ -204,7 +206,7 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 0.0, 0.0, 0.0),
                                           child: Text(
                                             formatNumber(
@@ -266,7 +268,7 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                                                 BorderRadius.circular(32.0),
                                           ),
                                           alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
+                                              AlignmentDirectional(0.0, 0.0),
                                           child: SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Row(
@@ -341,7 +343,7 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 6.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 6.0),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
@@ -363,14 +365,14 @@ class _ListadeGarrafasWidgetState extends State<ListadeGarrafasWidget> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               12.0, 12.0, 12.0, 12.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 6.0, 0.0),
                                 child: Icon(
                                   Icons.add_circle,

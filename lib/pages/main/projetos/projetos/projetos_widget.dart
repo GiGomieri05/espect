@@ -3,6 +3,8 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,17 +38,17 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
       });
       await _model.waitForFirestoreRequestCompleted3();
       setState(() {
-        _model.clearProjetosEmConstrucaoCache();
+        _model.clearProjetosNaoLancadosCache();
         _model.firestoreRequestCompleted2 = false;
       });
       await _model.waitForFirestoreRequestCompleted2();
       setState(() {
-        _model.clearProjetosEmConstrucaoCache();
+        _model.clearProjetosLancadosCache();
         _model.firestoreRequestCompleted5 = false;
       });
       await _model.waitForFirestoreRequestCompleted5();
       setState(() {
-        _model.clearProjetosEmConstrucaoCache();
+        _model.clearProjetosQuebradosCache();
         _model.firestoreRequestCompleted4 = false;
       });
       await _model.waitForFirestoreRequestCompleted4();
@@ -57,37 +59,33 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
       await _model.waitForFirestoreRequestCompleted1();
       FFAppState().isProjectCreated = false;
       setState(() {});
-      if (currentUserDisplayName == '') {
-        var confirmDialogResponse = await showDialog<bool>(
-              context: context,
-              builder: (alertDialogContext) {
-                return AlertDialog(
-                  title: const Text('Atualizar perfil'),
-                  content: const Text(
-                      'Vá na aba \"Perfil\" e atualize as suas informações'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(alertDialogContext, false),
-                      child: const Text('Agora não...'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(alertDialogContext, true),
-                      child: const Text('Atualizar'),
-                    ),
-                  ],
-                );
-              },
-            ) ??
-            false;
-        if (confirmDialogResponse) {
-          context.pushNamed('User');
-        } else {
-          return;
-        }
+      if ((currentUserDisplayName == null || currentUserDisplayName == '') ||
+          (valueOrDefault(currentUserDocument?.nivel, 0).toString() == null ||
+              valueOrDefault(currentUserDocument?.nivel, 0).toString() == '')) {
+        await showDialog(
+          context: context,
+          builder: (alertDialogContext) {
+            return AlertDialog(
+              title: Text('Atualize seu perfil para continuar'),
+              content: Text(
+                  'Vá na aba \"Perfil\" e atualize as suas informações. Adicione um nome de usuário e informe o seu ano escolar.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(alertDialogContext),
+                  child: Text('Atualizar'),
+                ),
+              ],
+            );
+          },
+        );
+
+        context.pushNamed('User');
       } else {
         return;
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -189,27 +187,22 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                   _model.clearProjetosEmConstrucaoCache();
                   _model.firestoreRequestCompleted3 = false;
                 });
-                await _model.waitForFirestoreRequestCompleted3();
                 setState(() {
-                  _model.clearProjetosEmConstrucaoCache();
+                  _model.clearProjetosNaoLancadosCache();
                   _model.firestoreRequestCompleted2 = false;
                 });
-                await _model.waitForFirestoreRequestCompleted2();
                 setState(() {
-                  _model.clearProjetosEmConstrucaoCache();
+                  _model.clearProjetosLancadosCache();
                   _model.firestoreRequestCompleted5 = false;
                 });
-                await _model.waitForFirestoreRequestCompleted5();
                 setState(() {
-                  _model.clearProjetosEmConstrucaoCache();
+                  _model.clearProjetosQuebradosCache();
                   _model.firestoreRequestCompleted4 = false;
                 });
-                await _model.waitForFirestoreRequestCompleted4();
                 setState(() {
                   _model.clearListaDeProjetosCache();
                   _model.firestoreRequestCompleted1 = false;
                 });
-                await _model.waitForFirestoreRequestCompleted1();
                 FFAppState().isProjectCreated = false;
                 setState(() {});
               },
@@ -226,14 +219,14 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                      EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                         child: Text(
                           'Painel de Controle',
                           style: FlutterFlowTheme.of(context)
@@ -253,7 +246,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                         child: Container(
                           width: double.infinity,
                           height: 50.0,
@@ -262,13 +255,13 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 8.0, 0.0),
                                   child: Text(
                                     'Em Construção',
@@ -299,9 +292,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                               )
                                               .where(
                                                 'userDono',
-                                                isEqualTo: currentUserUid != ''
-                                                    ? currentUserUid
-                                                    : null,
+                                                isEqualTo: currentUserUid,
                                               ),
                                     ).then((result) {
                                       _model.firestoreRequestCompleted3 = true;
@@ -326,6 +317,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                       );
                                     }
                                     int textCount = snapshot.data!;
+
                                     return Text(
                                       textCount.toString(),
                                       style: FlutterFlowTheme.of(context)
@@ -352,7 +344,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                         child: Container(
                           width: double.infinity,
                           height: 50.0,
@@ -361,13 +353,13 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 8.0, 0.0),
                                   child: Text(
                                     'Não Lançados',
@@ -388,7 +380,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                   ),
                                 ),
                                 FutureBuilder<int>(
-                                  future: _model.projetosEmConstrucao(
+                                  future: _model.projetosNaoLancados(
                                     requestFn: () => queryFoguetesRecordCount(
                                       queryBuilder: (foguetesRecord) =>
                                           foguetesRecord
@@ -398,9 +390,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                               )
                                               .where(
                                                 'userDono',
-                                                isEqualTo: currentUserUid != ''
-                                                    ? currentUserUid
-                                                    : null,
+                                                isEqualTo: currentUserUid,
                                               ),
                                     ).then((result) {
                                       _model.firestoreRequestCompleted2 = true;
@@ -410,7 +400,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
                                     if (!snapshot.hasData) {
-                                      return const Center(
+                                      return Center(
                                         child: SizedBox(
                                           width: 15.0,
                                           height: 15.0,
@@ -424,6 +414,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                       );
                                     }
                                     int textCount = snapshot.data!;
+
                                     return Text(
                                       textCount.toString(),
                                       style: FlutterFlowTheme.of(context)
@@ -450,7 +441,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                         child: Container(
                           width: double.infinity,
                           height: 50.0,
@@ -459,13 +450,13 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 8.0, 0.0),
                                   child: Text(
                                     'Lançados',
@@ -486,7 +477,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                   ),
                                 ),
                                 FutureBuilder<int>(
-                                  future: _model.projetosEmConstrucao(
+                                  future: _model.projetosLancados(
                                     requestFn: () => queryFoguetesRecordCount(
                                       queryBuilder: (foguetesRecord) =>
                                           foguetesRecord
@@ -523,6 +514,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                       );
                                     }
                                     int textCount = snapshot.data!;
+
                                     return Text(
                                       textCount.toString(),
                                       style: FlutterFlowTheme.of(context)
@@ -551,17 +543,17 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                         width: double.infinity,
                         height: 50.0,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF7C7C7C),
+                          color: Color(0xFF7C7C7C),
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 8.0, 0.0),
                                 child: Text(
                                   'Quebrados',
@@ -581,7 +573,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                 ),
                               ),
                               FutureBuilder<int>(
-                                future: _model.projetosEmConstrucao(
+                                future: _model.projetosQuebrados(
                                   requestFn: () => queryFoguetesRecordCount(
                                     queryBuilder: (foguetesRecord) =>
                                         foguetesRecord
@@ -618,6 +610,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                     );
                                   }
                                   int textCount = snapshot.data!;
+
                                   return Text(
                                     textCount.toString(),
                                     style: FlutterFlowTheme.of(context)
@@ -646,7 +639,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 50.0),
+                      EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 50.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -656,7 +649,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 8.0),
                             child: Material(
                               color: Colors.transparent,
@@ -719,7 +712,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 8.0),
                             child: Material(
                               color: Colors.transparent,
@@ -780,7 +773,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 8.0),
                             child: Material(
                               color: Colors.transparent,
@@ -848,7 +841,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Text(
                           'Todos os Projetos',
                           style: FlutterFlowTheme.of(context)
@@ -897,6 +890,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                           }
                           List<FoguetesRecord> listViewFoguetesRecordList =
                               snapshot.data!;
+
                           return ListView.builder(
                             padding: EdgeInsets.zero,
                             primary: false,
@@ -907,9 +901,9 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                               final listViewFoguetesRecord =
                                   listViewFoguetesRecordList[listViewIndex];
                               return Align(
-                                alignment: const AlignmentDirectional(0.0, 0.0),
+                                alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 6.0, 0.0, 6.0),
                                   child: InkWell(
                                     splashColor: Colors.transparent,
@@ -935,7 +929,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
-                                        boxShadow: const [
+                                        boxShadow: [
                                           BoxShadow(
                                             blurRadius: 3.0,
                                             color: Color(0x25090F13),
@@ -952,9 +946,9 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                               .lineColor,
                                         ),
                                       ),
-                                      alignment: const AlignmentDirectional(0.0, 0.0),
+                                      alignment: AlignmentDirectional(0.0, 0.0),
                                       child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             12.0, 8.0, 12.0, 12.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
@@ -968,10 +962,13 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                               children: [
                                                 if (listViewFoguetesRecord
                                                             .imagem !=
+                                                        null &&
+                                                    listViewFoguetesRecord
+                                                            .imagem !=
                                                         '')
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 16.0, 0.0),
                                                     child: ClipRRect(
@@ -995,7 +992,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                   children: [
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   10.0,
@@ -1064,7 +1061,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       8.0,
                                                                       0.0,
@@ -1107,20 +1104,20 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                     ),
                                                     Align(
                                                       alignment:
-                                                          const AlignmentDirectional(
+                                                          AlignmentDirectional(
                                                               0.0, 0.0),
                                                       child: Container(
                                                         width: 210.0,
                                                         constraints:
-                                                            const BoxConstraints(
+                                                            BoxConstraints(
                                                           maxWidth:
                                                               double.infinity,
                                                         ),
                                                         decoration:
-                                                            const BoxDecoration(),
+                                                            BoxDecoration(),
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1136,7 +1133,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -1229,7 +1226,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                                     40.0,
                                                                 fillColor: Colors
                                                                     .transparent,
-                                                                icon: const Icon(
+                                                                icon: Icon(
                                                                   Icons
                                                                       .delete_rounded,
                                                                   color: Color(
@@ -1246,16 +1243,16 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                                             builder:
                                                                                 (alertDialogContext) {
                                                                               return AlertDialog(
-                                                                                title: const Text('Confirmação'),
-                                                                                content: const Text('Deseja excluir o projeto?'),
+                                                                                title: Text('Confirmação'),
+                                                                                content: Text('Deseja excluir o projeto?'),
                                                                                 actions: [
                                                                                   TextButton(
                                                                                     onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                                    child: const Text('Cancel'),
+                                                                                    child: Text('Cancel'),
                                                                                   ),
                                                                                   TextButton(
                                                                                     onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                                    child: const Text('Confirm'),
+                                                                                    child: Text('Confirm'),
                                                                                   ),
                                                                                 ],
                                                                               );
@@ -1287,7 +1284,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                                     setState(
                                                                         () {
                                                                       _model
-                                                                          .clearProjetosEmConstrucaoCache();
+                                                                          .clearProjetosNaoLancadosCache();
                                                                       _model.firestoreRequestCompleted2 =
                                                                           false;
                                                                     });
@@ -1296,7 +1293,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                                     setState(
                                                                         () {
                                                                       _model
-                                                                          .clearProjetosEmConstrucaoCache();
+                                                                          .clearProjetosLancadosCache();
                                                                       _model.firestoreRequestCompleted5 =
                                                                           false;
                                                                     });
@@ -1305,7 +1302,7 @@ class _ProjetosWidgetState extends State<ProjetosWidget> {
                                                                     setState(
                                                                         () {
                                                                       _model
-                                                                          .clearProjetosEmConstrucaoCache();
+                                                                          .clearProjetosQuebradosCache();
                                                                       _model.firestoreRequestCompleted4 =
                                                                           false;
                                                                     });

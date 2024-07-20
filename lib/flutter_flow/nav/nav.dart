@@ -1,13 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
 import '/index.dart';
 import '/main.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -72,53 +79,53 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? const NavBarPage() : const LoginWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? const NavBarPage() : const LoginWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
         ),
         FFRoute(
           name: 'Projetos',
           path: '/projetos',
           requireAuth: true,
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'Projetos')
-              : const ProjetosWidget(),
+              ? NavBarPage(initialPage: 'Projetos')
+              : ProjetosWidget(),
         ),
         FFRoute(
           name: 'Login',
           path: '/login',
-          builder: (context, params) => const LoginWidget(),
+          builder: (context, params) => LoginWidget(),
         ),
         FFRoute(
           name: 'ForgotPasswordScreen',
           path: '/forgotPasswordScreen',
-          builder: (context, params) => const ForgotPasswordScreenWidget(),
+          builder: (context, params) => ForgotPasswordScreenWidget(),
         ),
         FFRoute(
           name: 'Lancamentos',
           path: '/lancamentos',
           requireAuth: true,
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'Lancamentos')
-              : const LancamentosWidget(),
+              ? NavBarPage(initialPage: 'Lancamentos')
+              : LancamentosWidget(),
         ),
         FFRoute(
           name: 'User',
           path: '/user',
           requireAuth: true,
           builder: (context, params) =>
-              params.isEmpty ? const NavBarPage(initialPage: 'User') : const UserWidget(),
+              params.isEmpty ? NavBarPage(initialPage: 'User') : UserWidget(),
         ),
         FFRoute(
           name: 'Team',
           path: '/team',
           requireAuth: true,
           builder: (context, params) =>
-              params.isEmpty ? const NavBarPage(initialPage: 'Team') : const TeamWidget(),
+              params.isEmpty ? NavBarPage(initialPage: 'Team') : TeamWidget(),
         ),
         FFRoute(
           name: 'FormularioProjeto',
@@ -134,7 +141,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'Details01ProjectTracker',
           path: '/details01ProjectTracker',
-          builder: (context, params) => const Details01ProjectTrackerWidget(),
+          builder: (context, params) => Details01ProjectTrackerWidget(),
         ),
         FFRoute(
           name: 'ProjetoDetails',
@@ -182,13 +189,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ListadeGarrafas',
           path: '/listadeGarrafas',
           requireAuth: true,
-          builder: (context, params) => const ListadeGarrafasWidget(),
+          builder: (context, params) => ListadeGarrafasWidget(),
         ),
         FFRoute(
           name: 'FormularioGarrafa',
           path: '/formularioGarrafa',
           requireAuth: true,
-          builder: (context, params) => const FormularioGarrafaWidget(),
+          builder: (context, params) => FormularioGarrafaWidget(),
         ),
         FFRoute(
           name: 'GarrafaDetails',
@@ -220,7 +227,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ListadeAletas',
           path: '/listadeAletas',
           requireAuth: true,
-          builder: (context, params) => const ListadeAletasWidget(),
+          builder: (context, params) => ListadeAletasWidget(),
         ),
         FFRoute(
           name: 'AletaDetails',
@@ -239,7 +246,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'FormularioAleta',
           path: '/formularioAleta',
           requireAuth: true,
-          builder: (context, params) => const FormularioAletaWidget(),
+          builder: (context, params) => FormularioAletaWidget(),
         ),
         FFRoute(
           name: 'FormularioAletaEdit',
@@ -258,13 +265,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ListadeCoifas',
           path: '/listadeCoifas',
           requireAuth: true,
-          builder: (context, params) => const ListadeCoifasWidget(),
+          builder: (context, params) => ListadeCoifasWidget(),
         ),
         FFRoute(
           name: 'FormularioCoifa',
           path: '/formularioCoifa',
           requireAuth: true,
-          builder: (context, params) => const FormularioCoifaWidget(),
+          builder: (context, params) => FormularioCoifaWidget(),
         ),
         FFRoute(
           name: 'CoifaDetails',
@@ -332,6 +339,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['foguetes', 'lancamentos'],
             ),
           ),
+        ),
+        FFRoute(
+          name: 'editUser',
+          path: '/editUser',
+          requireAuth: true,
+          builder: (context, params) => EditUserWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -565,7 +578,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

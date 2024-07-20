@@ -3,8 +3,12 @@ import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'garrafa_details_model.dart';
 export 'garrafa_details_model.dart';
 
@@ -29,6 +33,8 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => GarrafaDetailsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -43,10 +49,11 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
     return FutureBuilder<GarrafaRecord>(
       future: FFAppState().garrafaIndividual(
         uniqueQueryKey: valueOrDefault<String>(
-          widget.garrafaSelected?.id,
+          widget!.garrafaSelected?.id,
           '0',
         ),
-        requestFn: () => GarrafaRecord.getDocumentOnce(widget.garrafaSelected!),
+        requestFn: () =>
+            GarrafaRecord.getDocumentOnce(widget!.garrafaSelected!),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -66,7 +73,9 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
             ),
           );
         }
+
         final garrafaDetailsGarrafaRecord = snapshot.data!;
+
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -80,7 +89,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                   'FormularioGarrafaEdit',
                   queryParameters: {
                     'garrafaParaEditar': serializeParam(
-                      widget.garrafaSelected,
+                      widget!.garrafaSelected,
                       ParamType.DocumentReference,
                     ),
                   }.withoutNulls,
@@ -150,18 +159,18 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                           context: context,
                           builder: (alertDialogContext) {
                             return AlertDialog(
-                              title: const Text('Confirmação'),
-                              content: const Text('Deseja excluir o projeto?'),
+                              title: Text('Confirmação'),
+                              content: Text('Deseja excluir o projeto?'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, false),
-                                  child: const Text('Cancelar'),
+                                  child: Text('Cancelar'),
                                 ),
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, true),
-                                  child: const Text('Confirmar'),
+                                  child: Text('Confirmar'),
                                 ),
                               ],
                             );
@@ -169,7 +178,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                         ) ??
                         false;
                     if (confirmDialogResponse) {
-                      await widget.garrafaSelected!.delete();
+                      await widget!.garrafaSelected!.delete();
                       FFAppState().isProjectCreated = true;
                       setState(() {});
                       FFAppState().clearQueryDeGarrafasEmListaCache();
@@ -184,14 +193,15 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (valueOrDefault<bool>(
-                        (garrafaDetailsGarrafaRecord.imagem != '') &&
+                        (garrafaDetailsGarrafaRecord.imagem != null &&
+                                garrafaDetailsGarrafaRecord.imagem != '') &&
                             (garrafaDetailsGarrafaRecord.imagem != ''),
                         false,
                       ))
@@ -233,7 +243,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                         ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                         child: Text(
                           valueOrDefault<String>(
                             garrafaDetailsGarrafaRecord.nome,
@@ -253,9 +263,9 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                         ),
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(0.0, 0.0),
+                        alignment: AlignmentDirectional(0.0, 0.0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 8.0, 0.0, 8.0),
                           child: Container(
                             width: 200.0,
@@ -264,12 +274,12 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                               color: valueOrDefault<Color>(
                                 garrafaDetailsGarrafaRecord.isRetornavel
                                     ? FlutterFlowTheme.of(context).primary
-                                    : const Color(0xFF7E7E7E),
-                                const Color(0xFF7E7E7E),
+                                    : Color(0xFF7E7E7E),
+                                Color(0xFF7E7E7E),
                               ),
                               borderRadius: BorderRadius.circular(24.0),
                             ),
-                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Text(
                               garrafaDetailsGarrafaRecord.isRetornavel
                                   ? 'PET Retornável'
@@ -295,7 +305,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,7 +372,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                         color: FlutterFlowTheme.of(context).lineColor,
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
                           'Dimensões',
                           style: FlutterFlowTheme.of(context)
@@ -380,7 +390,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -444,7 +454,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -508,7 +518,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -575,7 +585,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                         color: FlutterFlowTheme.of(context).lineColor,
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
                           'Pressão',
                           style: FlutterFlowTheme.of(context)
@@ -593,7 +603,7 @@ class _GarrafaDetailsWidgetState extends State<GarrafaDetailsWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
