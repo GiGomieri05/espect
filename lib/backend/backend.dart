@@ -15,6 +15,7 @@ import 'schema/garrafa_record.dart';
 import 'schema/aleta_record.dart';
 import 'schema/foguetes_record.dart';
 import 'schema/lancamentos_record.dart';
+import 'schema/competicoes_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -33,6 +34,7 @@ export 'schema/garrafa_record.dart';
 export 'schema/aleta_record.dart';
 export 'schema/foguetes_record.dart';
 export 'schema/lancamentos_record.dart';
+export 'schema/competicoes_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -405,6 +407,43 @@ Future<List<LancamentosRecord>> queryLancamentosRecordOnce({
     queryCollectionOnce(
       LancamentosRecord.collection(parent),
       LancamentosRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query CompeticoesRecords (as a Stream and as a Future).
+Future<int> queryCompeticoesRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      CompeticoesRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<CompeticoesRecord>> queryCompeticoesRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      CompeticoesRecord.collection,
+      CompeticoesRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<CompeticoesRecord>> queryCompeticoesRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      CompeticoesRecord.collection,
+      CompeticoesRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

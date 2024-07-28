@@ -106,6 +106,11 @@ class LancamentosRecord extends FirestoreRecord {
   String get nomeFoguete => _nomeFoguete ?? '';
   bool hasNomeFoguete() => _nomeFoguete != null;
 
+  // "agua" field.
+  int? _agua;
+  int get agua => _agua ?? 0;
+  bool hasAgua() => _agua != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -130,6 +135,7 @@ class LancamentosRecord extends FirestoreRecord {
     _pouso = snapshotData['pouso'] as String?;
     _imagem = snapshotData['imagem'] as String?;
     _nomeFoguete = snapshotData['nomeFoguete'] as String?;
+    _agua = castToType<int>(snapshotData['agua']);
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -190,6 +196,7 @@ Map<String, dynamic> createLancamentosRecordData({
   String? pouso,
   String? imagem,
   String? nomeFoguete,
+  int? agua,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -211,6 +218,7 @@ Map<String, dynamic> createLancamentosRecordData({
       'pouso': pouso,
       'imagem': imagem,
       'nomeFoguete': nomeFoguete,
+      'agua': agua,
     }.withoutNulls,
   );
 
@@ -239,7 +247,8 @@ class LancamentosRecordDocumentEquality implements Equality<LancamentosRecord> {
         e1?.direcaoVento == e2?.direcaoVento &&
         e1?.pouso == e2?.pouso &&
         e1?.imagem == e2?.imagem &&
-        e1?.nomeFoguete == e2?.nomeFoguete;
+        e1?.nomeFoguete == e2?.nomeFoguete &&
+        e1?.agua == e2?.agua;
   }
 
   @override
@@ -261,7 +270,8 @@ class LancamentosRecordDocumentEquality implements Equality<LancamentosRecord> {
         e?.direcaoVento,
         e?.pouso,
         e?.imagem,
-        e?.nomeFoguete
+        e?.nomeFoguete,
+        e?.agua
       ]);
 
   @override

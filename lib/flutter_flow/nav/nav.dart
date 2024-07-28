@@ -345,6 +345,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/editUser',
           requireAuth: true,
           builder: (context, params) => EditUserWidget(),
+        ),
+        FFRoute(
+          name: 'CompeticaoDetails',
+          path: '/competicaoDetails',
+          requireAuth: true,
+          builder: (context, params) => CompeticaoDetailsWidget(
+            competicaoSelected: params.getParam(
+              'competicaoSelected',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['competicoes'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

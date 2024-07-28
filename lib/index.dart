@@ -6,7 +6,7 @@ export '/pages/login/forgot_password_screen/forgot_password_screen_widget.dart'
 export '/pages/main/lancamentos/lancamentos/lancamentos_widget.dart'
     show LancamentosWidget;
 export '/pages/main/user/user/user_widget.dart' show UserWidget;
-export '/pages/main/projetos/team/team_widget.dart' show TeamWidget;
+export '/team_and_tournaments/team/team_widget.dart' show TeamWidget;
 export '/pages/main/projetos/formulario_projeto/formulario_projeto_widget.dart'
     show FormularioProjetoWidget;
 export '/pages/main/projetos/details01_project_tracker/details01_project_tracker_widget.dart'
@@ -46,3 +46,5 @@ export '/pages/main/lancamentos/formulario_lancamentos_edit/formulario_lancament
 export '/pages/main/lancamentos/lancamento_details/lancamento_details_widget.dart'
     show LancamentoDetailsWidget;
 export '/pages/main/user/edit_user/edit_user_widget.dart' show EditUserWidget;
+export '/team_and_tournaments/competicao_details/competicao_details_widget.dart'
+    show CompeticaoDetailsWidget;

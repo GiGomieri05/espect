@@ -190,21 +190,6 @@ class FFAppState extends ChangeNotifier {
   void clearQueryDeListaDeCoifasCacheKey(String? uniqueKey) =>
       _queryDeListaDeCoifasManager.clearRequest(uniqueKey);
 
-  final _listaDeFoguetesManager = FutureRequestManager<List<FoguetesRecord>>();
-  Future<List<FoguetesRecord>> listaDeFoguetes({
-    String? uniqueQueryKey,
-    bool? overrideCache,
-    required Future<List<FoguetesRecord>> Function() requestFn,
-  }) =>
-      _listaDeFoguetesManager.performRequest(
-        uniqueQueryKey: uniqueQueryKey,
-        overrideCache: overrideCache,
-        requestFn: requestFn,
-      );
-  void clearListaDeFoguetesCache() => _listaDeFoguetesManager.clear();
-  void clearListaDeFoguetesCacheKey(String? uniqueKey) =>
-      _listaDeFoguetesManager.clearRequest(uniqueKey);
-
   final _lancamentoIndividualManager =
       FutureRequestManager<LancamentosRecord>();
   Future<LancamentosRecord> lancamentoIndividual({
@@ -220,4 +205,21 @@ class FFAppState extends ChangeNotifier {
   void clearLancamentoIndividualCache() => _lancamentoIndividualManager.clear();
   void clearLancamentoIndividualCacheKey(String? uniqueKey) =>
       _lancamentoIndividualManager.clearRequest(uniqueKey);
+
+  final _competicaoSelecionadaManager =
+      FutureRequestManager<CompeticoesRecord>();
+  Future<CompeticoesRecord> competicaoSelecionada({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<CompeticoesRecord> Function() requestFn,
+  }) =>
+      _competicaoSelecionadaManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearCompeticaoSelecionadaCache() =>
+      _competicaoSelecionadaManager.clear();
+  void clearCompeticaoSelecionadaCacheKey(String? uniqueKey) =>
+      _competicaoSelecionadaManager.clearRequest(uniqueKey);
 }
