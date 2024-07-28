@@ -27,9 +27,9 @@ class EditUserModel extends FlutterFlowModel<EditUserWidget> {
   FocusNode? nomeUserFocusNode;
   TextEditingController? nomeUserTextController;
   String? Function(BuildContext, String?)? nomeUserTextControllerValidator;
-  // State field(s) for lista_anoescolar widget.
-  int? listaAnoescolarValue;
-  FormFieldController<int>? listaAnoescolarValueController;
+  // State field(s) for DropDown widget.
+  int? dropDownValue;
+  FormFieldController<int>? dropDownValueController;
 
   @override
   void initState(BuildContext context) {}

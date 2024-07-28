@@ -45,6 +45,10 @@ class FormularioLancamentosModel
   // State field(s) for direcaovento_DropDown widget.
   String? direcaoventoDropDownValue;
   FormFieldController<String>? direcaoventoDropDownValueController;
+  // State field(s) for agua widget.
+  FocusNode? aguaFocusNode;
+  TextEditingController? aguaTextController;
+  String? Function(BuildContext, String?)? aguaTextControllerValidator;
   // State field(s) for vinagre widget.
   FocusNode? vinagreFocusNode;
   TextEditingController? vinagreTextController;
@@ -92,6 +96,9 @@ class FormularioLancamentosModel
     tabBarController?.dispose();
     temperaturaFocusNode?.dispose();
     temperaturaTextController?.dispose();
+
+    aguaFocusNode?.dispose();
+    aguaTextController?.dispose();
 
     vinagreFocusNode?.dispose();
     vinagreTextController?.dispose();

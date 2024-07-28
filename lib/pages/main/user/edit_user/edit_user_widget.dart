@@ -328,7 +328,7 @@ class _EditUserWidgetState extends State<EditUserWidget> {
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 8.0, 0.0, 0.0),
                               child: Text(
-                                'Informações Pessoais',
+                                'Informações do competidor',
                                 style: FlutterFlowTheme.of(context)
                                     .titleLarge
                                     .override(
@@ -347,88 +347,54 @@ class _EditUserWidgetState extends State<EditUserWidget> {
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 16.0, 0.0, 0.0),
-                            child: AuthUserStreamWidget(
-                              builder: (context) => FlutterFlowDropDown<int>(
-                                controller:
-                                    _model.listaAnoescolarValueController ??=
-                                        FormFieldController<int>(
-                                  _model.listaAnoescolarValue ??=
-                                      valueOrDefault(
-                                          currentUserDocument?.nivel, 0),
-                                ),
-                                options: List<int>.from([
-                                  6,
-                                  7,
-                                  8,
-                                  9,
-                                  1,
-                                  2,
-                                  3,
-                                  4,
-                                  4,
-                                  4,
-                                  8,
-                                  9,
-                                  10,
-                                  4,
-                                  0
-                                ]),
-                                optionLabels: [
-                                  '6º ano do Ensino Fundamental',
-                                  '7º ano do Ensino Fundamental',
-                                  '8º ano do Ensino Fundamental',
-                                  '9º ano do Ensino Fundamental',
-                                  '1º ano do Ensino Médio',
-                                  '2º ano do Ensino Médio',
-                                  '3º ano do Ensino Médio',
-                                  '4º ano do Ensino Médio',
-                                  '',
-                                  '4º ano do Ensino Médio',
-                                  '',
-                                  '',
-                                  '',
-                                  'Selecione...',
-                                  ''
-                                ],
-                                onChanged: (val) => setState(
-                                    () => _model.listaAnoescolarValue = val),
-                                width: 300.0,
-                                height: 65.0,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleMedium
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .titleMediumFamily,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      letterSpacing: 0.0,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .titleMediumFamily),
-                                    ),
-                                hintText: 'Selecione o ano escolar',
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  size: 24.0,
-                                ),
-                                fillColor: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                elevation: 2.0,
-                                borderColor:
-                                    FlutterFlowTheme.of(context).lineColor,
-                                borderWidth: 2.0,
-                                borderRadius: 40.0,
-                                margin: EdgeInsetsDirectional.fromSTEB(
-                                    24.0, 8.0, 24.0, 8.0),
-                                hidesUnderline: true,
-                                isOverButton: true,
-                                isSearchable: false,
-                                isMultiSelect: false,
+                                0.0, 16.0, 0.0, 8.0),
+                            child: FlutterFlowDropDown<int>(
+                              controller: _model.dropDownValueController ??=
+                                  FormFieldController<int>(
+                                _model.dropDownValue ??= null,
                               ),
+                              options: List<int>.from([1, 2]),
+                              optionLabels: [
+                                'Nível 3 - 6º ao 9º ano do Ensino Fundamental',
+                                'Nível 4 - Ensino Médio'
+                              ],
+                              onChanged: (val) =>
+                                  setState(() => _model.dropDownValue = val),
+                              width: MediaQuery.sizeOf(context).width * 1.0,
+                              height: 64.0,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleMedium
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .titleMediumFamily,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    letterSpacing: 0.0,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .titleMediumFamily),
+                                  ),
+                              hintText: 'Selecione seu nível',
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                size: 24.0,
+                              ),
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              elevation: 2.0,
+                              borderColor:
+                                  FlutterFlowTheme.of(context).lineColor,
+                              borderWidth: 2.0,
+                              borderRadius: 50.0,
+                              margin: EdgeInsetsDirectional.fromSTEB(
+                                  24.0, 8.0, 24.0, 8.0),
+                              hidesUnderline: true,
+                              isOverButton: true,
+                              isSearchable: false,
+                              isMultiSelect: false,
                             ),
                           ),
                         ],
@@ -502,12 +468,12 @@ class _EditUserWidgetState extends State<EditUserWidget> {
                                   displayName:
                                       _model.nomeUserTextController.text,
                                   nivel: valueOrDefault<int>(
-                                    _model.listaAnoescolarValue != null
+                                    _model.dropDownValue.toString() != null &&
+                                            _model.dropDownValue.toString() !=
+                                                ''
                                         ? valueOrDefault<int>(
-                                            (_model.listaAnoescolarValue! >=
-                                                        6) &&
-                                                    (_model.listaAnoescolarValue! <=
-                                                        9)
+                                            _model.dropDownValue.toString() ==
+                                                    '1'
                                                 ? 3
                                                 : 4,
                                             4,
