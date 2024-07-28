@@ -1,5 +1,24 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "competicoes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "is_exibir",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nivel",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "ordenacao",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
   "fieldOverrides": [
     {
       "collectionGroup": "lancamentos",
